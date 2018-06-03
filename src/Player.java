@@ -4,14 +4,18 @@ import java.util.*;
 public class Player implements Runnable {
 	
 	public String PlayerName = "PlayerName";
+	public boolean alive;
+	public int PlayerID;
 	
 	//Array list containing Location objects which show what squares in the grid this player occupies
 	public ArrayList locations = new ArrayList(); 
 	
-	public Player(String PlayerName) {
+	public Player(String PlayerName, int PlayerID) {
 		this.PlayerName  = PlayerName;
-		int x;
-		int y;
+		this.alive = false;
+		this.PlayerID = PlayerID;
+		int LocX;
+		int LocY;
 		resetLastKeyPressed();
 	}
 
@@ -20,8 +24,6 @@ public class Player implements Runnable {
 	}
 	
 	Move lastKeyPressed = null;
-	
-	private int upKey = 0, downKey = 1, leftKey = 2, rightKey = 3;
 
 	public void run()
 	{
@@ -39,50 +41,19 @@ public class Player implements Runnable {
 			setLastKeyPressed(Move.LEFT);
 		} else if(key == KeyEvent.VK_RIGHT) {
 			setLastKeyPressed(Move.RIGHT);
+		} else if(key == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
 		}
 	}
 	
 	//Getters and Setters
-	public String getPlayerName() {
-		return this.PlayerName;
-	}
+	public String getPlayerName() {return this.PlayerName;}
+	public void setPlayerName(String Name) {this.PlayerName = Name;}
 	
 	public Move getLastKeyPressed() {
-		System.out.println(lastKeyPressed.toString());
+//		System.out.println(lastKeyPressed.toString());
 		return lastKeyPressed;
 	}
-	public void setLastKeyPressed(Move input) {
-		lastKeyPressed = input;
-	}
-	public void resetLastKeyPressed() {
-		lastKeyPressed = Move.NONE;
-	}
-	
-	public int getUpKey() {
-		return upKey;
-	}
-	public void setUpKey(int upKey) {
-		this.upKey = upKey;
-	}
-
-	public int getDownKey() {
-		return downKey;
-	}
-	public void setDownKey(int downKey) {
-		this.downKey = downKey;
-	}
-
-	public int getLeftKey() {
-		return leftKey;
-	}
-	public void setLeftKey(int leftKey) {
-		this.leftKey = leftKey;
-	}
-
-	public int getRightKey() {
-		return rightKey;
-	}
-	public void setRightKey(int rightKey) {
-		this.rightKey = rightKey;
-	}
+	public void setLastKeyPressed(Move input) {lastKeyPressed = input;}
+	public void resetLastKeyPressed() {lastKeyPressed = Move.NONE;}
 }

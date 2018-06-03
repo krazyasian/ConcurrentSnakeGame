@@ -1,7 +1,7 @@
 public class PlayerAI extends Player {
 
-	public PlayerAI(String PlayerName) {
-		super(PlayerName);
+	public PlayerAI(String PlayerName, int PlayerID) {
+		super(PlayerName, PlayerID);
 		resetLastKeyPressed();
 		}
 	
