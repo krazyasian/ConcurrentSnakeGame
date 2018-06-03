@@ -7,14 +7,18 @@ static Boolean existed = false;
 				
 				Server server = new Server();
 				server.LoginData();
-				Player p1=new Player("Player1");
-				if(server.login(p1))
-					{
-					System.out.println("Login was correct");
+				
+				for(int i=0; i<101 ; i++) {
+					Player p1=new Player("Player" + i);
+					if(server.login(p1))
+						{
+						System.out.println("Login was correct");
+						}
+					else {
+						System.out.println("Login wasn't correct");
 					}
-				else {
-					System.out.println("Login wasn't correct");
 				}
+				
 				
 				
 				//****TODO change this one to true after checking with the database
