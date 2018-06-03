@@ -23,32 +23,35 @@ public class State{
 			for (int j=0; j<gameWidth; j++)
 			{
 				String key = i + "-" + j;
-				Location current = new Location(i, j, Location.atLocation.EMPTY);
+				Location current = new Location(i, j, "EMPTY");
 				grid.put(key, current);
 			}
 		}
 	}
 	
-//	public HashMap populate(HashMap<Integer, Player> players, int numPlayers)
-//	{
-//		for (int i = 0; i < numPlayers; i++)
-//		{
-//			Player currentPlayer = players.get(i);
-//			double headX = Math.floor((Math.random() * gameHeight) + 1);
-//			double headY = Math.floor((Math.random() * gameWidth) + 1);
-//			while (headX < 3)
-//			{
-//				headX = Math.floor((Math.random() * gameHeight) + 1);
-//			}
-//			boolean validLocation = false;
-//			while (validLocation == false)
-//			{
-//				
-//				
-//			}
-//			
-//		}
-//	}
+	public HashMap<Integer, Player> populate(HashMap<Integer, Player> players, int numPlayers)
+	{
+		for (int i = 0; i < numPlayers; i++)
+		{
+			Player currentPlayer = players.get(i);
+			int x = 4;
+			int y = i;
+			Location headLocation = new Location(x, y, "SNAKE");
+			Location secondLocation = new Location(x-1, y, "SNAKE");
+			Location thirdLocation = new Location(x-2, y, "SNAKE");
+			
+			grid.replace(headLocation.getKey(), headLocation);
+			grid.replace(secondLocation.getKey(), secondLocation);
+			grid.replace(thirdLocation.getKey(), thirdLocation);
+			
+			currentPlayer.locations.add(headLocation);
+			currentPlayer.locations.add(secondLocation);
+			currentPlayer.locations.add(thirdLocation);
+			
+		}
+		
+		return players;
+	}
 	
 	public Location getGridLoc(int x, int y)
 	{
@@ -58,7 +61,7 @@ public class State{
 		
 	}
 	
-	public void setGricLoc(int x, int y, Location.atLocation contains)
+	public void setGricLoc(int x, int y, String contains)
 	{
 		Location current = new Location(x, y, contains);
 		String key = x + "-" + y;
