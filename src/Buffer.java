@@ -1,15 +1,15 @@
 public class Buffer {
  // Size of the buffer
-	private int N ;
+	private int n ;
     // The buffer is implemented as an array    
-	private int[] B = new int[N];
+	private int[] b = new int[n];
     // The pointers to the append and take positions    
 	private int InPtr = 0,OutPtr = 0;
     // The number of items in the buffer   
 	private int Count = 0;
 	// Constructor takes the size as a parameter    
 	public  Buffer(int size) {  
-		N = size;
+		n = size;
 	
 	}
         // initialise the array        
@@ -17,7 +17,7 @@ public class Buffer {
 	
 public synchronized void append(int value) {
     // If the buffer is full we cannot append to it   
-	while (Count == N) { 
+	while (Count == n) { 
 		 try {             
 			 this.wait();
 			 } catch (InterruptedException e) {
@@ -26,14 +26,14 @@ public synchronized void append(int value) {
 
 	}
       // Place the value in the buffer     
-    	B[InPtr] = value;
+    	b[InPtr] = value;
       // print out a debug message
     	
     	System.out.println(Thread.currentThread().getName() +" added "+value+" at "+InPtr+" Count was= "+Count);
       // display the state of the buffer for debug purposes   
     	display();
       // increment the pointer. Note the pointer must wrap around to the start      
-    	InPtr = (InPtr + 1) % N;
+    	InPtr = (InPtr + 1) % n;
       // Update the count      
     	Count = Count + 1;
       // If this is the first item added will the consumer thread know?
@@ -45,11 +45,11 @@ public synchronized int take () {
 	while (Count==0) {
 		try { wait();
 		} catch (InterruptedException e) {}
-		}   int I = B[OutPtr];
+		}   int I = b[OutPtr];
 		System.out.println(Thread.currentThread().getName()+
         " removed "+I+" at "+OutPtr+" Count was = "+Count);
 		display();
-        OutPtr = (OutPtr+1) % N;    Count = Count-1;
+        OutPtr = (OutPtr+1) % n;    Count = Count-1;
         notifyAll();    return I;
         }
 
@@ -57,10 +57,10 @@ public synchronized int take () {
 
 
 public synchronized void display() {
-	for (int i=0; i<N; i++) {
+	for (int i=0; i<n; i++) {
 		if (i==InPtr) System.out.print("#");
 		if (i==OutPtr) System.out.print("*");
-		System.out.print(i+":"+B[i]+" ");    }   
+		System.out.print(i+":"+b[i]+" ");    }   
 	System.out.println("#InPtr "+InPtr+" *OutPtr "+OutPtr);
 	}
 
