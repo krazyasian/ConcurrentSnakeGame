@@ -8,8 +8,10 @@ public class Player implements Runnable {
 	//Array list containing Location objects which show what squares in the grid this player occupies
 	public ArrayList locations = new ArrayList(); 
 	
-	public Player(String PlayerName, int x, int y) {
+	public Player(String PlayerName) {
 		this.PlayerName  = PlayerName;
+		int x;
+		int y;
 		resetLastKeyPressed();
 	}
 
@@ -41,6 +43,10 @@ public class Player implements Runnable {
 	}
 	
 	//Getters and Setters
+	public String getPlayerName() {
+		return this.PlayerName;
+	}
+	
 	public Move getLastKeyPressed() {
 		System.out.println(lastKeyPressed.toString());
 		return lastKeyPressed;
