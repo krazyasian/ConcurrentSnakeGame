@@ -56,9 +56,7 @@ public class Server {
 		return false;
 	}
 	
-<<<<<<< HEAD
-	
-=======
+
 	// **<=
 	
 	//checks if player exists in record and
@@ -85,26 +83,14 @@ public class Server {
 			hmap.put(playerId,player);
 	}
 	
-	//<=
+	
 	
 	
 
 	
 	
 	
-	public static void main(String[] args) {
-		System.out.println("Hi this is a temp main method in server");
-		//Create 100 player's data with passwords
-		LoginData();
-		for(int i = 0;i<100;i++)
-		{
-			Player player= new Player("Player"+i,i);
-		login(player,i);
-		}
-		
-	}
->>>>>>> 8bf04ad8a1d28474af81cb52d115e19caaf8609e
-	
+
 	//pull moves from the buffer
 	private Buffer getBuffer () {
 		return buffer;

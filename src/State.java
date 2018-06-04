@@ -73,13 +73,13 @@ public class State{
 		do {
 			do {
 				graph = strategy.getDrawGraphics();
-<<<<<<< HEAD
+
 				
 				graph.setColor(new Color(230, 230, 255));
-=======
+
 				// Draw Background
 				graph.setColor(new Color(0, 0, 102));
->>>>>>> 8bf04ad8a1d28474af81cb52d115e19caaf8609e
+
 				graph.fillRect(0, 0, gameWidth, gameHeight);
 				
 				int gridCase = EMPTY;
