@@ -8,8 +8,19 @@ static Boolean existed = false;
 						+ " the database :) + IF TRUE then Start State");
 				
 				Server server = new Server();
-				
-				
+
+				server.LoginData();
+				for(int i=0; i<101 ; i++) {
+					Player p1=new Player("Player" + i, i);
+					if(server.login(p1, i))
+						{
+						System.out.println("Login was correct");
+						}
+					else {
+						System.out.println("Login wasn't correct");
+					}
+				}
+
 				HashMap<Integer, Player> playerList = new HashMap<Integer, Player>();
 				for(int i=0; i<20; i++)
 				{

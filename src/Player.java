@@ -57,4 +57,6 @@ public class Player implements Runnable {
 	}
 	public void setLastKeyPressed(Move input) {lastKeyPressed = input;}
 	public void resetLastKeyPressed() {lastKeyPressed = Move.NONE;}
+	
+	public int getPlayerID() {return this.PlayerID;}
 }

@@ -78,7 +78,7 @@ public class Server {
 	// **<=
 	
 	//puts player in hashmap if login was successful **=>
-	public static void putPlayerInHashMap(Thread player,int playerId)
+	public static void putPlayerInHashMap(int playerId,Thread player)
 	{
 			hmap.put(playerId,player);
 	}
