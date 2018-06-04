@@ -73,10 +73,15 @@ public class State{
 		do {
 			do {
 				graph = strategy.getDrawGraphics();
+
+				
+				graph.setColor(new Color(230, 230, 255));
+
 				// Draw Background
 				graph.setColor(new Color(0, 0, 102));
+
 				graph.fillRect(0, 0, gameWidth, gameHeight);
-				// Draw snake, bonus ...
+				
 				int gridCase = EMPTY;
 				for (int i = 0; i < gameSize; i++) {
 
@@ -102,7 +107,7 @@ public class State{
 				
 				graph.dispose();
 			} while (strategy.contentsRestored());
-			// Draw image from buffer
+			
 			strategy.show();
 			Toolkit.getDefaultToolkit().sync();
 		} while (strategy.contentsLost());
@@ -113,8 +118,10 @@ public class State{
 		for (int i = 0; i < numPlayers; i++)
 		{
 			//Player currentPlayer = players.get(j);
-			int x = (int) Math.floor(Math.random()*35)+4;
-			int y = (int) Math.floor(Math.random()*35);
+			int x = (int) Math.floor(Math.random()*gameSize)+3;
+			int y = (int) Math.floor(Math.random()*gameSize);
+			Player currentPlayer = players.get(i);
+			
 			Location headLocation = new Location(x, y, 1);
 			Location secondLocation = new Location(x-1, y, 1);
 			Location thirdLocation = new Location(x-2, y, 1);
@@ -125,10 +132,53 @@ public class State{
 			grid.replace(thirdLocation.getKey(), thirdLocation);
 			grid.replace(fourthLocation.getKey(), fourthLocation);
 			
+			currentPlayer.addLocation(headLocation);
+			currentPlayer.addLocation(secondLocation);
+			currentPlayer.addLocation(thirdLocation);
+			currentPlayer.addLocation(fourthLocation);
+			
+			players.replace(i, currentPlayer);
 			
 		}
 		
 		return players;
+	}
+	
+	public Player move(Player currentPlayer, int direction)
+	{
+		Location temp = currentPlayer.getLocation(currentPlayer.getLength()-1);
+		String key = temp.getKey();
+		temp.setType(EMPTY);
+		grid.replace(key, temp);
+		
+		Location head = currentPlayer.getLocation(0);
+		Location next = head;
+		if (direction == 1)
+		{
+			int newx;
+			if (head.getx() == gameSize-1)
+			{
+				newx = 1;
+			}
+			else 
+			{
+				newx = head.getx() +1;
+			}
+			next = new Location(newx, head.gety(), 1);
+		}
+		
+		ArrayList<Location> newArray = new ArrayList<Location>();
+		newArray.add(next);
+		grid.replace(next.getKey(), next);
+		
+		for (int i=0; i<currentPlayer.getLength()-1; i++)
+		{
+			newArray.add(currentPlayer.getLocation(i));
+		}
+		
+		currentPlayer.setLocation(newArray);
+		
+		return currentPlayer;
 	}
 	
 	public Location getGridLoc(int x, int y)

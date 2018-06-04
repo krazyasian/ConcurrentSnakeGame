@@ -8,7 +8,7 @@ public class Buffer {
 	
 	private int[] b = new int[n];
     // The pointers to the append and take positions    
-//	private int InPtr = 0,OutPtr = 0;
+//	private isnt InPtr = 0,OutPtr = 0;
     // The number of items in the buffer   
 	private int Count = 0;
 	// Constructor takes the size as a parameter    
@@ -18,8 +18,13 @@ public class Buffer {
 	}
         // initialise the array        
 	
+
+
+public synchronized void append(int value) {
+}
 	
 public synchronized void append(int id,int move) {
+
     // If the buffer is full we cannot append to it   
 	while (Count == n) { 
 		 try {             
