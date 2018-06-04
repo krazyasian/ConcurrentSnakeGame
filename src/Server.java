@@ -14,7 +14,7 @@ public class Server {
 	
 	//hashmap / looby to store the values of player name 
 	//and their corresponding thread
-	static HashMap<Integer, Thread> hmap = new HashMap<Integer, Thread>();
+	static HashMap<Integer, Player> hmap = new HashMap<Integer, Player>();
 	//map database where all the records are saved
 	static File dbFile = Utils.tempDbFile();
 	static DB db = DBMaker.newFileDB(dbFile)
@@ -49,8 +49,7 @@ public class Server {
 	public synchronized static boolean login (Player player, int password) {
 		if(getPlayer(player.getPlayerName(),password))
 		{
-			Thread playerR=new Thread(new Player(player.getPlayerName(),password));
-			putPlayerInHashMap(player.getPlayerID(),playerR);
+			putPlayerInHashMap(player.getPlayerID(),player);
 			System.out.println("putting player in hashMap, Name: "+player.getPlayerName());
 			return true;
 		}
@@ -78,7 +77,7 @@ public class Server {
 	// **<=
 	
 	//puts player in hashmap if login was successful **=>
-	public static void putPlayerInHashMap(int playerId,Thread player)
+	public static void putPlayerInHashMap(int playerId,Player player)
 	{
 			hmap.put(playerId,player);
 	}

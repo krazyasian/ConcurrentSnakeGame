@@ -10,7 +10,8 @@ static Boolean existed = false;
 				Server server = new Server();
 
 				server.LoginData();
-				for(int i=0; i<101 ; i++) {
+				int players = 5;
+				for(int i=0; i<5 ; i++) {
 					Player p1=new Player("Player" + i, i);
 					if(server.login(p1, i))
 						{
@@ -21,18 +22,14 @@ static Boolean existed = false;
 					}
 				}
 
-				HashMap<Integer, Player> playerList = new HashMap<Integer, Player>();
-				for(int i=0; i<20; i++)
-				{
-					Player testPlayer = new Player("test" + i, i);
-					playerList.put(i, testPlayer);
-				}
+				HashMap<Integer, Player> playerList = server.hmap;
+				
 				
 				State gameState = new State();
 			
 				
 				
-				gameState.populate(playerList, 20);
+				gameState.populate(playerList, playerList.size());
 				gameState.render();
 				
 				//****TODO change this one to true after checking with the database
