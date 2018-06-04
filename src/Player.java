@@ -50,6 +50,17 @@ public class Player implements Runnable {
 	{
 		return this.length;
 	}
+	
+	public int getFacing()
+	{
+		return this.facing;
+	}
+	
+	public void setFacing(int direction)
+	{
+		this.facing = direction;
+	}
+	
 	public void keyPressed(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
 		
