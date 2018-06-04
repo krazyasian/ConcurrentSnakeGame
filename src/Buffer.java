@@ -8,7 +8,7 @@ public class Buffer {
 	
 	private int[] b = new int[n];
     // The pointers to the append and take positions    
-//	private int InPtr = 0,OutPtr = 0;
+//	private isnt InPtr = 0,OutPtr = 0;
     // The number of items in the buffer   
 	private int Count = 0;
 	// Constructor takes the size as a parameter    
@@ -17,12 +17,10 @@ public class Buffer {
 	
 	}
         // initialise the array        
-	
 
 
 public synchronized void append(int value) {
 }
-
 	
 public synchronized void append(int id,int move) {
     // If the buffer is full we cannot append to it   
@@ -40,7 +38,7 @@ public synchronized void append(int id,int move) {
     	
     	System.out.println(Thread.currentThread().getName() +" added player id: "+id+" move was: "+move+" Count was= "+Count);
       // display the state of the buffer for debug purposes   
-    	display();
+    	//display();
       // increment the pointer. Note the pointer must wrap around to the start      
     	//InPtr = (InPtr + 1) % n;
       // Update the count      
@@ -50,28 +48,18 @@ public synchronized void append(int id,int move) {
     
 	}
 
-public synchronized int take () {
+public synchronized HashMap<Integer, Integer > take () {
 	while (Count==0) {
-		try { wait();
-		} catch (InterruptedException e) {}
-		}   int I = b[OutPtr];
-		System.out.println(Thread.currentThread().getName()+
-        " removed "+I+" at "+OutPtr+" Count was = "+Count);
-		display();
-        OutPtr = (OutPtr+1) % n;    Count = Count-1;
-        notifyAll();    return I;
+		try { 
+			wait();
+		} 
+		catch (InterruptedException e) 
+		{}
+		}
+		    return bufferMoves ;
         }
 
 
-
-
-public synchronized void display() {
-	for (int i=0; i<n; i++) {
-		if (i==InPtr) System.out.print("#");
-		if (i==OutPtr) System.out.print("*");
-		System.out.print(i+":"+b[i]+" ");    }   
-	System.out.println("#InPtr "+InPtr+" *OutPtr "+OutPtr);
-	}
 
   
 }

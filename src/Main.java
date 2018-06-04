@@ -4,14 +4,16 @@ public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
 
+
 		System.out.println("Checking if Login details matches with"
 				+ " the database :) + IF TRUE then Start State");
 
 		Server server = new Server();
 		loginData(server);
 
-		int players = 5;
-		for(int i=0; i<5 ; i++) {
+
+		int players = 100;
+		for(int i=0; i<players ; i++) {
 			Player p1=new Player("Player" + i, i);
 			if(server.login(p1, i))
 			{
@@ -32,28 +34,32 @@ public class Main {
 		gameState.populate(playerList, playerList.size());
 		gameState.render();
 
-		for (int i=0; i<20; i++)
+		for (int i=0; i<100; i++)
 		{
-			Thread.sleep(500);
-			playerList.replace(0, gameState.move(playerList.get(0), 1));
+			Thread.sleep(100);
+			for (int j=0; j<playerList.size();j++)
+			{
+				playerList.replace(j, gameState.move(playerList.get(j), 1));
+			}
+
 			gameState.render();
 		}
 
 
-		System.exit(0);
+		//System.exit(0);
 		//** TODO :- Pass Moves to G here
-		server.getDb().commit();  //persist changes into disk
+	}
 
-	}
-	
-	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
-	public synchronized static void loginData(Server server)
+
+
+//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
+public synchronized static void loginData(Server server)
+{
+	for(int i=0;i<100;i++)
 	{
-		for(int i=0;i<100;i++)
-		{
-			server.getPlayers().put(i,"Player"+i);
-			server.getPasswords().put("Player"+i,i);
-		}
+		server.getPlayers().put(i,"Player"+i);
+		server.getPasswords().put("Player"+i,i);
 	}
+}
 
 }
