@@ -52,14 +52,14 @@ public class Main {
 
 
 
-//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
-public synchronized static void loginData(Server server)
-{
-	for(int i=0;i<100;i++)
+	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
+	public synchronized static void loginData(Server server)
 	{
-		server.getPlayers().put(i,"Player"+i);
-		server.getPasswords().put("Player"+i,i);
+		for(int i=0;i<100;i++)
+		{
+			server.getPlayers().put(i,"Player"+i);
+			server.getPasswords().put("Player"+i,i);
+		}
 	}
-}
 
 }

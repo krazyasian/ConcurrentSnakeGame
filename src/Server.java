@@ -7,6 +7,8 @@ import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Utils;
 
+
+
 public class Server {
 
 	private Buffer buffer;
@@ -86,6 +88,10 @@ public class Server {
 	//updates the game interface with the new moves coming from the players
 	private synchronized void updateGameInterface () {
 		
+		
+		while(running) {
+			
+		}
 	}
 
 	private synchronized Thread addThread () {
