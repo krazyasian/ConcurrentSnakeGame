@@ -14,7 +14,7 @@ public class Buffer {
 	}
         // initialise the array        
 	
-	
+
 public synchronized void append(int value) {
     // If the buffer is full we cannot append to it   
 	while (Count == n) { 

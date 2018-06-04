@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class Main {
 static Boolean existed = false;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 			
 				System.out.println("Checking if Login details matches with"
 						+ " the database :) + IF TRUE then Start State");
@@ -33,6 +33,14 @@ static Boolean existed = false;
 				
 				gameState.populate(playerList, 20);
 				gameState.render();
+
+				for (int i=0; i<20; i++)
+				{
+					Thread.sleep(500);
+					playerList.replace(0, gameState.move(playerList.get(0), 1));
+					gameState.render();
+				}
+				
 				
 				//****TODO change this one to true after checking with the database
 				existed = true;
