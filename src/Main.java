@@ -10,9 +10,10 @@ static Boolean existed = false;
 				Server server = new Server();
 				server.LoginData();
 				
+				
 				for(int i=0; i<101 ; i++) {
 					Player p1=new Player("Player" + i, i);
-					if(server.login(p1))
+					if(server.login(p1, i))
 						{
 						System.out.println("Login was correct");
 						}
