@@ -51,9 +51,14 @@ public class Buffer {
 
 	public synchronized String take () {
 		while (Count==0) {
-			try { wait();
-			} catch (InterruptedException e) {}
-		}   int I = b[OutPtr];
+			try { 
+				wait();
+			} catch (InterruptedException e) 
+			{
+				
+			}
+		}   
+		int I = b[OutPtr];
 		System.out.println(Thread.currentThread().getName()+
 				" removed "+I+" at "+OutPtr+" Count was = "+Count);
 		display();

@@ -1,6 +1,8 @@
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentNavigableMap;
 
 import org.mapdb.DB;
@@ -90,6 +92,9 @@ public class Server {
 		
 		
 		while(running) {
+			String playerMove = buffer.take();
+			List<String> elephantList = Arrays.asList(playerMove.split("/"));
+			
 			
 		}
 	}
