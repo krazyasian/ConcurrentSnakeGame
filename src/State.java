@@ -12,16 +12,15 @@ import java.util.concurrent.*;
 public class State{
 	
 	//Height of the grid to be set by the server
-	public int gameHeight = 600;
+	public int gameHeight = 1000;
 	//Width of the grid to be set by the server
-	public int gameWidth = 600;
-	private int gameSize = 40;
+	public int gameWidth = 1000;
+	private int gameSize = 90;
 	private long speed = 70;
 	private Frame frame = null;
 	private Canvas canvas = null;
 	private Graphics graph = null;
 	private BufferStrategy strategy = null;
-	
 	public final static int EMPTY = 0;
 	public final static int SNAKE = 1;
 	
@@ -68,7 +67,7 @@ public class State{
 			do {
 				graph = strategy.getDrawGraphics();
 				// Draw Background
-				graph.setColor(new Color(230, 230, 255));
+				graph.setColor(new Color(0, 0, 102));
 				graph.fillRect(0, 0, gameWidth, gameHeight);
 				// Draw snake, bonus ...
 				int gridCase = EMPTY;
@@ -79,7 +78,7 @@ public class State{
 						gridCase = grid.get(key).getType();
 						switch (gridCase) {
 						case SNAKE:
-							graph.setColor(Color.black);
+							graph.setColor(Color.red);
 							graph.fillOval(i * gridUnit, j * gridUnit,
 									gridUnit, gridUnit);
 							break;
