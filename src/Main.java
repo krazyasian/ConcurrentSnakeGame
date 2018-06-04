@@ -32,12 +32,12 @@ static Boolean existed = false;
 				gameState.populate(playerList, playerList.size());
 				gameState.render();
 
-				for (int i=0; i<100; i++)
+				for (int i=0; i<1000; i++)
 				{
 					Thread.sleep(100);
 					for (int j=0; j<playerList.size();j++)
 					{
-						playerList.replace(j, gameState.move(playerList.get(j), 1));
+						playerList.replace(j, gameState.move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
 					}
 					
 					gameState.render();

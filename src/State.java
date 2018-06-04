@@ -153,19 +153,140 @@ public class State{
 		
 		Location head = currentPlayer.getLocation(0);
 		Location next = head;
+		//move right
 		if (direction == 1)
 		{
-			int newx;
-			if (head.getx() == gameSize-1)
+			if (currentPlayer.getFacing() != 4)
 			{
-				newx = 1;
+				int newx;
+				if (head.getx() == gameSize-1)
+				{
+					newx = 1;
+				}
+				else 
+				{
+					newx = head.getx() +1;
+				}
+				next = new Location(newx, head.gety(), 1);
+				currentPlayer.setFacing(1);
 			}
 			else 
 			{
-				newx = head.getx() +1;
+				int newx;
+				if (head.getx() == 0)
+				{
+					newx = gameSize-1;
+				}
+				else 
+				{
+					newx = head.getx() -1;
+				}
+				next = new Location(newx, head.gety(), 1);
+				currentPlayer.setFacing(4);
 			}
-			next = new Location(newx, head.gety(), 1);
+			
 		}
+		//move down
+		else if (direction == 2)
+		{
+			if (currentPlayer.getFacing() != 3)
+			{
+				int newy;
+				if (head.gety() == gameSize-1)
+				{
+					newy = 1;
+				}
+				else 
+				{
+					newy = head.gety() +1;
+				}
+				next = new Location(head.getx(), newy, 1);
+				currentPlayer.setFacing(2);
+			}
+			else
+			{
+				int newy;
+				if (head.gety() == 0)
+				{
+					newy = gameSize-1;
+				}
+				else 
+				{
+					newy = head.gety() -1;
+				}
+				next = new Location(head.getx(), newy, 1);
+				currentPlayer.setFacing(3);
+			}
+			
+		}
+		//move up
+		else if (direction == 3)
+		{
+			
+			if (currentPlayer.getFacing() != 2)
+			{
+				int newy;
+				if (head.gety() == 0)
+				{
+					newy = gameSize-1;
+				}
+				else 
+				{
+					newy = head.gety() -1;
+				}
+				next = new Location(head.getx(), newy, 1);
+				currentPlayer.setFacing(3);
+			}
+			else
+			{
+				int newy;
+				if (head.gety() == gameSize-1)
+				{
+					newy = 1;
+				}
+				else 
+				{
+					newy = head.gety() +1;
+				}
+				next = new Location(head.getx(), newy, 1);
+				currentPlayer.setFacing(2);
+			}
+			
+		}
+		//move left
+		else if (direction == 4)
+		{
+			if (currentPlayer.getFacing() != 1)
+			{
+				int newx;
+				if (head.getx() == 0)
+				{
+					newx = gameSize-1;
+				}
+				else 
+				{
+					newx = head.getx() -1;
+				}
+				next = new Location(newx, head.gety(), 1);
+				currentPlayer.setFacing(4);
+			}
+			else
+			{
+				int newx;
+				if (head.getx() == gameSize-1)
+				{
+					newx = 1;
+				}
+				else 
+				{
+					newx = head.getx() +1;
+				}
+				next = new Location(newx, head.gety(), 1);
+				currentPlayer.setFacing(1);
+			}
+			
+		}
+		
 		
 		ArrayList<Location> newArray = new ArrayList<Location>();
 		newArray.add(next);
