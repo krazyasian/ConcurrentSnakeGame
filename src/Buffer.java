@@ -18,13 +18,13 @@ public class Buffer {
 	}
         // initialise the array        
 	
-<<<<<<< HEAD
+
 
 public synchronized void append(int value) {
-=======
+}
 	
 public synchronized void append(int id,int move) {
->>>>>>> 8bf04ad8a1d28474af81cb52d115e19caaf8609e
+
     // If the buffer is full we cannot append to it   
 	while (Count == n) { 
 		 try {             

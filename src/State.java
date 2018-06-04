@@ -118,8 +118,8 @@ public class State{
 		for (int i = 0; i < numPlayers; i++)
 		{
 			//Player currentPlayer = players.get(j);
-			int x = (int) Math.floor(Math.random()*10)+3;
-			int y = i*2;
+			int x = (int) Math.floor(Math.random()*gameSize)+3;
+			int y = (int) Math.floor(Math.random()*gameSize);
 			Player currentPlayer = players.get(i);
 			
 			Location headLocation = new Location(x, y, 1);
@@ -155,8 +155,18 @@ public class State{
 		Location next = head;
 		if (direction == 1)
 		{
-			next = new Location(head.getx()+1, head.gety(), 1);
+			int newx;
+			if (head.getx() == gameSize-1)
+			{
+				newx = 1;
+			}
+			else 
+			{
+				newx = head.getx() +1;
+			}
+			next = new Location(newx, head.gety(), 1);
 		}
+		
 		ArrayList<Location> newArray = new ArrayList<Location>();
 		newArray.add(next);
 		grid.replace(next.getKey(), next);
