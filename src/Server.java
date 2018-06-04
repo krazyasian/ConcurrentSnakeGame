@@ -27,6 +27,12 @@ public class Server {
 
 	}
 	
+	public static void main(String[] args) {
+		System.out.println("Hi this is a temp main method in server");
+		System.out.println("Creating new state :)");
+		State newState = new State(0, 0);
+	}
+	
 	//pull moves from the buffer
 	private Buffer getBuffer () {
 		return buffer;
