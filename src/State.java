@@ -12,18 +12,24 @@ import java.util.concurrent.*;
 public class State{
 	
 	//Height of the grid to be set by the server
-	public int gameHeight = 600;
+	public int gameHeight = 1000;
 	//Width of the grid to be set by the server
-	public int gameWidth = 600;
-	private int gameSize = 40;
+	public int gameWidth = 1000;
+	private int gameSize = 90;
 	private long speed = 70;
 	private Frame frame = null;
 	private Canvas canvas = null;
 	private Graphics graph = null;
 	private BufferStrategy strategy = null;
-	
 	public final static int EMPTY = 0;
 	public final static int SNAKE = 1;
+	
+	
+	//Adding food items
+	public final static int FOOD_BONUS = 1;
+	public final static int FOOD_MALUS = 2;
+	public final static int BIG_FOOD_BONUS = 3;
+	
 	
 	ConcurrentHashMap<String, Location> grid = new ConcurrentHashMap<String, Location>();
 	
@@ -67,8 +73,13 @@ public class State{
 		do {
 			do {
 				graph = strategy.getDrawGraphics();
+<<<<<<< HEAD
 				
 				graph.setColor(new Color(230, 230, 255));
+=======
+				// Draw Background
+				graph.setColor(new Color(0, 0, 102));
+>>>>>>> 8bf04ad8a1d28474af81cb52d115e19caaf8609e
 				graph.fillRect(0, 0, gameWidth, gameHeight);
 				
 				int gridCase = EMPTY;
@@ -79,8 +90,13 @@ public class State{
 						gridCase = grid.get(key).getType();
 						switch (gridCase) {
 						case SNAKE:
-							graph.setColor(Color.black);
+							graph.setColor(Color.red);
 							graph.fillOval(i * gridUnit, j * gridUnit,
+									gridUnit, gridUnit);
+							break;
+						case FOOD_MALUS:
+							graph.setColor(Color.yellow);
+							graph.fillOval(i*gridUnit, j* gridUnit,
 									gridUnit, gridUnit);
 							break;
 						default:
@@ -170,5 +186,9 @@ public class State{
 		grid.replace(key, current);
 	}
 	
-	
+	//This method closese the application on call
+	public void closeWindow()
+	{
+		System.exit(0);
+	}
 }
