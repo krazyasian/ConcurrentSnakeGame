@@ -24,6 +24,13 @@ public class State{
 	public final static int EMPTY = 0;
 	public final static int SNAKE = 1;
 	
+	
+	//Adding food items
+	public final static int FOOD_BONUS = 1;
+	public final static int FOOD_MALUS = 2;
+	public final static int BIG_FOOD_BONUS = 3;
+	
+	
 	ConcurrentHashMap<String, Location> grid = new ConcurrentHashMap<String, Location>();
 	
 	
@@ -82,6 +89,11 @@ public class State{
 							graph.fillOval(i * gridUnit, j * gridUnit,
 									gridUnit, gridUnit);
 							break;
+						case FOOD_MALUS:
+							graph.setColor(Color.yellow);
+							graph.fillOval(i*gridUnit, j* gridUnit,
+									gridUnit, gridUnit);
+							break;
 						default:
 							break;
 						}
@@ -134,5 +146,9 @@ public class State{
 		grid.replace(key, current);
 	}
 	
-	
+	//This method closese the application on call
+	public void closeWindow()
+	{
+		System.exit(0);
+	}
 }
