@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Main {
 static Boolean existed = false;
 	public static void main(String[] args) {
@@ -18,8 +20,19 @@ static Boolean existed = false;
 						System.out.println("Login wasn't correct");
 					}
 				}
+				HashMap<Integer, Player> playerList = new HashMap<Integer, Player>();
+				for(int i=0; i<20; i++)
+				{
+					Player testPlayer = new Player("test" + i, i);
+					playerList.put(i, testPlayer);
+				}
+				
+				State gameState = new State();
+			
 				
 				
+				gameState.populate(playerList, 20);
+				gameState.render();
 				
 				//****TODO change this one to true after checking with the database
 				existed = true;

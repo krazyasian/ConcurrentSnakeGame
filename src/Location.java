@@ -3,10 +3,10 @@ public class Location {
 	
 	public int x;
 	public int y;
-	public String type;
+	public int type;
 	public String key;
 	
-	public Location(int x, int y, String type)
+	public Location(int x, int y, int type)
 	{
 		this.x = x;
 		this.y = y;
@@ -24,12 +24,12 @@ public class Location {
 		return this.y;
 	}
 	
-	public String getType()
+	public int getType()
 	{
 		return this.type;
 	}
 	
-	public void setType(String type)
+	public void setType(int type)
 	{
 		this.type = type;
 	}

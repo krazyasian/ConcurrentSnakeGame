@@ -8,7 +8,8 @@ public class Player implements Runnable {
 	public int PlayerID;
 	
 	//Array list containing Location objects which show what squares in the grid this player occupies
-	public ArrayList locations = new ArrayList(); 
+	public int length = 3;
+	public int[][] locations = new int[length][length]; 
 	
 	public Player(String PlayerName, int PlayerID) {
 		this.PlayerName  = PlayerName;
