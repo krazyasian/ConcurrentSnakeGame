@@ -8,43 +8,38 @@ import org.mapdb.DBMaker;
 import org.mapdb.Utils;
 
 public class Server {
-	
+
 	private Buffer buffer;
 	private State gameState;
-	
+	private boolean running;
+
 	//hashmap / looby to store the values of player name 
 	//and their corresponding thread
-	static HashMap<Integer, Player> hmap = new HashMap<Integer, Player>();
+	static HashMap<Integer, Player> hmap;
 	//map database where all the records are saved
-	static File dbFile = Utils.tempDbFile();
-	static DB db = DBMaker.newFileDB(dbFile)
-			.closeOnJvmShutdown()
-			.encryptionEnable("password")
-			.make();
-//open an collection, TreeMap has better performance then HashMap
-	static ConcurrentNavigableMap<Integer,String> players = db.getTreeMap("Players");
-	static ConcurrentNavigableMap<String,Integer> passwords = db.getTreeMap("Passwords");
+	static File dbFile;
+	private static DB db;
+	//open an collection, TreeMap has better performance then HashMap
+	private static ConcurrentNavigableMap<Integer,String> players;
+	private static ConcurrentNavigableMap<String,Integer> passwords;
 
 
 	//**CONSTRUCTOR
-		public Server () {
+	public Server () {
+		buffer = new Buffer(100);
+		gameState = new State();
+		running = true;
+		hmap = new HashMap<Integer, Player>();
+		dbFile = Utils.tempDbFile();
+		db = DBMaker.newFileDB(dbFile)
+				.closeOnJvmShutdown()
+				.encryptionEnable("password")
+				.make();
 
-		}
-		
-		
-		//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
-		public synchronized static void LoginData()
-		{
-			for(int i=0;i<100;i++)
-			{
-				players.put(i,"Player"+i);
-				passwords.put("Player"+i,i);
-			}
-			db.commit();  //persist changes into disk
-		}
-		
-		//**<=
-		
+		players = db.getTreeMap("Players");
+		passwords = db.getTreeMap("Passwords");
+	}
+
 	//verify login player **=>
 	public synchronized static boolean login (Player player, int password) {
 		if(getPlayer(player.getPlayerName(),password))
@@ -55,19 +50,16 @@ public class Server {
 		}
 		return false;
 	}
-	
 
-	// **<=
-	
 	//checks if player exists in record and
-	//returns true if it does **=>
+	//returns true if it does
 	public static boolean getPlayer(String name, int password)
 	{
 		for(int i=0;i<100;i++)
 		{
 			//player index in players database and his password index 
 			//in passwords is same so we are checking if player and their password matches
-			if(players.get(i).equals(name) && password==i)
+			if(getPlayers().get(i).equals(name) && password==i)
 			{
 				return true;
 			}
@@ -75,21 +67,11 @@ public class Server {
 		return false;
 	}
 
-	// **<=
-	
 	//puts player in hashmap if login was successful **=>
 	public static void putPlayerInHashMap(int playerId,Player player)
 	{
-			hmap.put(playerId,player);
+		hmap.put(playerId,player);
 	}
-	
-	
-	
-	
-
-	
-	
-	
 
 	//pull moves from the buffer
 	private Buffer getBuffer () {
@@ -101,12 +83,9 @@ public class Server {
 
 	}
 
-
-
 	//updates the game interface with the new moves coming from the players
 	private synchronized void updateGameInterface () {
-		//
-
+		
 	}
 
 	private synchronized Thread addThread () {
@@ -118,8 +97,24 @@ public class Server {
 		hmap.remove(removePlayer);
 	}
 
+	public static ConcurrentNavigableMap<Integer,String> getPlayers() {
+		return players;
+	}
 
 
+	public static void setPlayers(ConcurrentNavigableMap<Integer,String> players) {
+		Server.players = players;
+	}
 
+	public static ConcurrentNavigableMap<String,Integer> getPasswords() {
+		return passwords;
+	}
+
+	/**
+	 * @return the db
+	 */
+	public static DB getDb() {
+		return db;
+	}
 
 }
