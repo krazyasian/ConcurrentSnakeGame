@@ -40,9 +40,6 @@ public class Server {
 		passwords = db.getTreeMap("Passwords");
 	}
 
-
-	
-
 	//verify login player **=>
 	public synchronized static boolean login (Player player, int password) {
 		if(getPlayer(player.getPlayerName(),password))
@@ -54,10 +51,8 @@ public class Server {
 		return false;
 	}
 
-	// **<=
-
 	//checks if player exists in record and
-	//returns true if it does **=>
+	//returns true if it does
 	public static boolean getPlayer(String name, int password)
 	{
 		for(int i=0;i<100;i++)
@@ -72,14 +67,11 @@ public class Server {
 		return false;
 	}
 
-	// **<=
-
 	//puts player in hashmap if login was successful **=>
 	public static void putPlayerInHashMap(int playerId,Player player)
 	{
 		hmap.put(playerId,player);
 	}
-
 
 	//pull moves from the buffer
 	private Buffer getBuffer () {
@@ -91,12 +83,9 @@ public class Server {
 
 	}
 
-
-
 	//updates the game interface with the new moves coming from the players
 	private synchronized void updateGameInterface () {
-
-
+		
 	}
 
 	private synchronized Thread addThread () {
@@ -108,29 +97,18 @@ public class Server {
 		hmap.remove(removePlayer);
 	}
 
-
-
-
 	public static ConcurrentNavigableMap<Integer,String> getPlayers() {
 		return players;
 	}
-
-
 
 
 	public static void setPlayers(ConcurrentNavigableMap<Integer,String> players) {
 		Server.players = players;
 	}
 
-
-
-
 	public static ConcurrentNavigableMap<String,Integer> getPasswords() {
 		return passwords;
 	}
-
-
-
 
 	/**
 	 * @return the db
@@ -138,9 +116,5 @@ public class Server {
 	public static DB getDb() {
 		return db;
 	}
-
-
-
-
 
 }

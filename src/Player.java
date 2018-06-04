@@ -6,10 +6,10 @@ public class Player implements Runnable {
 	public String PlayerName = "PlayerName";
 	public boolean alive;
 	public int PlayerID;
-	
+	public int facing = 1;
 	//Array list containing Location objects which show what squares in the grid this player occupies
-	public int length = 3;
-	public int[][] locations = new int[length][length]; 
+	public int length = 4;
+	public ArrayList<Location> locations = new ArrayList<Location>(); 
 	
 	public Player(String PlayerName, int PlayerID) {
 		this.PlayerName  = PlayerName;
@@ -31,6 +31,25 @@ public class Player implements Runnable {
 		System.out.println("new player created");
 	}
 
+	public void addLocation(Location location)
+	{
+		locations.add(location);
+	}
+	
+	public Location getLocation(int atIndex)
+	{
+		return this.locations.get(atIndex);
+	}
+	
+	public void setLocation(ArrayList<Location> newArray)
+	{
+		this.locations = newArray;
+	}
+	
+	public int getLength()
+	{
+		return this.length;
+	}
 	public void keyPressed(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
 		
