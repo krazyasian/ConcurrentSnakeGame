@@ -154,13 +154,13 @@ public class State{
 		
 		for(int i=0; i<30; i++)
 		{
-			int x = (int) Math.floor(Math.random()*gameSize);
-			int y = (int) Math.floor(Math.random()*gameSize);
+			int x = (int) Math.floor(Math.random()*gameSize)+1;
+			int y = (int) Math.floor(Math.random()*gameSize)+1;
 			String key = x + "-" + y;
 			if (grid.get(key).getType() == 1)
 			{
-				x = (int) Math.floor(Math.random()*gameSize);
-				y = (int) Math.floor(Math.random()*gameSize);
+				x = (int) Math.floor(Math.random()*gameSize)+1;
+				y = (int) Math.floor(Math.random()*gameSize)+1;
 			}
 			else
 			{
@@ -170,13 +170,13 @@ public class State{
 		
 		for(int i=0; i<15; i++)
 		{
-			int x = (int) Math.floor(Math.random()*gameSize);
-			int y = (int) Math.floor(Math.random()*gameSize);
+			int x = (int) Math.floor(Math.random()*gameSize)+1;
+			int y = (int) Math.floor(Math.random()*gameSize)+1;
 			String key = x + "-" + y;
 			if (grid.get(key).getType() == 1)
 			{
-				x = (int) Math.floor(Math.random()*gameSize);
-				y = (int) Math.floor(Math.random()*gameSize);
+				x = (int) Math.floor(Math.random()*gameSize)+1;
+				y = (int) Math.floor(Math.random()*gameSize)+1;
 			}
 			else
 			{
@@ -351,28 +351,28 @@ public class State{
 			else if (checkCollision(next) == 2)
 			{
 				fed = true;
-				int x = (int) Math.floor(Math.random()*gameSize);
-				int y = (int) Math.floor(Math.random()*gameSize);
+				int x = (int) Math.floor(Math.random()*gameSize)+1;
+				int y = (int) Math.floor(Math.random()*gameSize)+1;
 				String key2 = x+"-"+y;
 				while (grid.get(key2).getType() != 0)
 				{
-					x = (int) Math.floor(Math.random()*gameSize);
-					y = (int) Math.floor(Math.random()*gameSize);
+					x = (int) Math.floor(Math.random()*gameSize)+1;
+					y = (int) Math.floor(Math.random()*gameSize)+1;
 				}
-				grid.replace(key2, new Location(x,y,2));
+				//grid.replace(key2, new Location(x,y,2));
 			}
 			else if (checkCollision(next) == 3)
 			{
 				poisoned = true;
-				int x = (int) Math.floor(Math.random()*gameSize);
-				int y = (int) Math.floor(Math.random()*gameSize);
+				int x = (int) Math.floor(Math.random()*gameSize)+1;
+				int y = (int) Math.floor(Math.random()*gameSize)+1;
 				String key2 = x+"-"+y;
 				while (grid.get(key2).getType() != 0)
 				{
-					x = (int) Math.floor(Math.random()*gameSize);
-					y = (int) Math.floor(Math.random()*gameSize);
+					x = (int) Math.floor(Math.random()*gameSize)+1;
+					y = (int) Math.floor(Math.random()*gameSize)+1;
 				}
-				grid.replace(key2, new Location(x,y,3));
+				//grid.replace(key2, new Location(x,y,3));
 			}
 			
 			ArrayList<Location> newArray = new ArrayList<Location>();
