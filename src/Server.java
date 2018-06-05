@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -16,6 +18,8 @@ public class Server {
 	private Buffer buffer;
 	private State gameState;
 	private boolean running;
+	private int processors;
+	private ExecutorService executorService;
 
 	//hashmap / looby to store the values of player name 
 	//and their corresponding thread
@@ -33,6 +37,8 @@ public class Server {
 		buffer = new Buffer(100);
 		gameState = new State();
 		running = true;
+		processors = Runtime.getRuntime().availableProcessors();
+		executorService = Executors.newFixedThreadPool(processors);
 		hmap = new HashMap<Integer, Player>();
 		dbFile = Utils.tempDbFile();
 		db = DBMaker.newFileDB(dbFile)
@@ -90,12 +96,17 @@ public class Server {
 	//updates the game interface with the new moves coming from the players
 	private synchronized void updateGameInterface () {
 		
-		
 		while(isRunning()) {
-			String playerMove = buffer.take();
-			List<String> move = Arrays.asList(playerMove.split("/"));
+			String stringBuffer = buffer.take();
+			List<String> moveList = Arrays.asList(stringBuffer.split("/")); //split the string to get the playerId and move
+			int playerId = Integer.parseInt(moveList.get(0));
+			int playerMove = Integer.parseInt(moveList.get(1));
+			Player currentPlayer = hmap.get(playerId); //Retrieve the player from the player hashmap
 			
+			UpdateSnake update = new UpdateSnake(currentPlayer, playerMove, gameState);
 			
+			executorService.execute(update);
+
 		}
 	}
 
