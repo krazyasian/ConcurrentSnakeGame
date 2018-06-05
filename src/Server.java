@@ -45,7 +45,7 @@ public class Server {
 	}
 
 	
-	
+	//Warning ! Don't do anything with this method
 	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
 			public synchronized static void loginData()
 			{
@@ -58,7 +58,7 @@ public class Server {
 			}
 			
 			// **<=
-			
+			//Warning ! Don't do anything with this method
 	//verify login player **=>
 	public synchronized static boolean login (Player player, String password) {
 		if(getPlayer(player.getPlayerName(),password))
@@ -68,7 +68,7 @@ public class Server {
 		}
 		return false;
 	}
-
+	//Warning ! Don't do anything with this method
 	//checks if player exists in record and
 	//returns true if it does
 	public static boolean getPlayer(String name, String password)
@@ -84,7 +84,8 @@ public class Server {
 		}
 		return false;
 	}
-
+	
+	//Warning ! Don't do anything with this method
 	//puts player in hashmap  **=>
 	public static void putPlayerInHashMap(int playerId,Player player)
 	{

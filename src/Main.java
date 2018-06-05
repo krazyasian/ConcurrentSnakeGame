@@ -35,9 +35,11 @@ public class Main {
 				server.getBuffer().append(j, (int) Math.floor(Math.random()*4)+1);
 				//playerList.replace(j, gameState.move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
 			}
-
-			gameState.render();
+			
 		}
+		
+
+		
 		
 		//Testing 
 		String moveAndPlayerID=
