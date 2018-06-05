@@ -10,7 +10,7 @@ public class Main {
 		Server server = new Server();
 
 		loginData(server);
-		int players = 100;
+		int players = 1;
 		for(int i=0; i<players ; i++) {
 			Player p1=new Player("Player" + i, i);
 			if(server.login(p1, i))

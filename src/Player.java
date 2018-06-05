@@ -1,20 +1,23 @@
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.*;
 
-public class Player implements Runnable {
+public class Player implements Runnable, KeyListener {
+
+	public static Buffer myBuffer;
 	
-	public String PlayerName = "PlayerName";
+	public String playerName = "PlayerName";
 	public boolean alive;
-	public int PlayerID;
+	public int playerID;
 	public int facing = 1;
 	//Array list containing Location objects which show what squares in the grid this player occupies
 	public int length = 4;
 	public ArrayList<Location> locations = new ArrayList<Location>(); 
-	
+
 	public Player(String PlayerName, int PlayerID) {
-		this.PlayerName  = PlayerName;
+		this.playerName  = PlayerName;
 		this.alive = false;
-		this.PlayerID = PlayerID;
+		this.playerID = PlayerID;
 		int LocX;
 		int LocY;
 		resetLastKeyPressed();
@@ -23,7 +26,7 @@ public class Player implements Runnable {
 	public static enum Move {
 		UP, DOWN, LEFT, RIGHT, NONE;
 	}
-	
+
 	Move lastKeyPressed = null;
 
 	public void run()
@@ -35,35 +38,35 @@ public class Player implements Runnable {
 	{
 		locations.add(location);
 	}
-	
+
 	public Location getLocation(int atIndex)
 	{
 		return this.locations.get(atIndex);
 	}
-	
+
 	public void setLocation(ArrayList<Location> newArray)
 	{
 		this.locations = newArray;
 	}
-	
+
 	public int getLength()
 	{
 		return this.length;
 	}
-	
+
 	public int getFacing()
 	{
 		return this.facing;
 	}
-	
+
 	public void setFacing(int direction)
 	{
 		this.facing = direction;
 	}
-	
+
 	public void keyPressed(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
-		
+
 		if (key == KeyEvent.VK_UP) {
 			setLastKeyPressed(Move.UP);
 		} else if(key == KeyEvent.VK_DOWN) {
@@ -75,18 +78,29 @@ public class Player implements Runnable {
 		} else if(key == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		}
+		
+		sendToBuffer(key);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		setLastKeyPressed(Move.NONE);
 	}
 	
+	public void sendToBuffer(int key) {
+		myBuffer.append(this.playerID, key);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+
 	//Getters and Setters
-	public String getPlayerName() {return this.PlayerName;}
-	public void setPlayerName(String Name) {this.PlayerName = Name;}
-	
-	public Move getLastKeyPressed() {
-//		System.out.println(lastKeyPressed.toString());
-		return lastKeyPressed;
-	}
+	public String getPlayerName() {return this.playerName;}
+	public void setPlayerName(String Name) {this.playerName = Name;}
+
+	public Move getLastKeyPressed() {return lastKeyPressed;}
 	public void setLastKeyPressed(Move input) {lastKeyPressed = input;}
 	public void resetLastKeyPressed() {lastKeyPressed = Move.NONE;}
-	
-	public int getPlayerID() {return this.PlayerID;}
+
+	public int getPlayerID() {return this.playerID;}
 }
