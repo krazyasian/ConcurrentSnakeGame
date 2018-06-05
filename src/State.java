@@ -358,7 +358,7 @@ public class State{
 					x = (int) Math.floor(Math.random()*gameSize)+1;
 					y = (int) Math.floor(Math.random()*gameSize)+1;
 				}
-				//grid.replace(key2, new Location(x,y,2));
+				grid.replace(key2, new Location(x,y,2));
 			}
 			else if (checkCollision(next) == 3)
 			{
@@ -371,7 +371,7 @@ public class State{
 					x = (int) Math.floor(Math.random()*gameSize)+1;
 					y = (int) Math.floor(Math.random()*gameSize)+1;
 				}
-				//grid.replace(key2, new Location(x,y,3));
+				grid.replace(key2, new Location(x,y,3));
 			}
 			
 			ArrayList<Location> newArray = new ArrayList<Location>();
