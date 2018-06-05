@@ -59,6 +59,7 @@ public class State{
 		frame.setTitle("Snake");
 		frame.setVisible(true);
 		canvas.setIgnoreRepaint(true);
+		// *** => This is what causes two difference color windows i think (canvas)
 		canvas.setBackground(new Color(153, 153, 102));
 		canvas.createBufferStrategy(2);
 		strategy = canvas.getBufferStrategy();
@@ -95,7 +96,7 @@ public class State{
 									gridUnit, gridUnit);
 							break;
 						case FOOD_MALUS:
-							graph.setColor(Color.yellow);
+							graph.setColor(Color.orange);
 							graph.fillOval(i*gridUnit, j* gridUnit,
 									gridUnit, gridUnit);
 							break;
@@ -317,7 +318,7 @@ public class State{
 		grid.replace(key, current);
 	}
 	
-	//This method closese the application on call
+	//This method closes the application on call
 	public void closeWindow()
 	{
 		System.exit(0);
