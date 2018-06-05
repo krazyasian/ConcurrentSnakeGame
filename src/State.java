@@ -8,6 +8,8 @@ import java.awt.image.BufferStrategy;
 import java.util.*;
 import java.util.concurrent.*;
 
+import javax.swing.JFrame;
+
 
 public class State{
 	
@@ -17,7 +19,7 @@ public class State{
 	public int gameWidth = 800;
 	private int gameSize = 90;
 	private long speed = 70;
-	private Frame frame = null;
+	private JFrame frame = null;
 	private Canvas canvas = null;
 	private Graphics graph = null;
 	private BufferStrategy strategy = null;
@@ -37,7 +39,7 @@ public class State{
 	//Starting constructor for creating a completely blank grid.
 	public State()
 	{
-		frame = new Frame();
+		frame = new JFrame();
 		canvas = new Canvas();
 		for (int i=0; i<gameHeight; i++ )
 		{
@@ -64,6 +66,7 @@ public class State{
 		canvas.createBufferStrategy(2);
 		strategy = canvas.getBufferStrategy();
 		graph = strategy.getDrawGraphics();
+		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);;
 		
 	}
 	
