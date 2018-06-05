@@ -190,6 +190,10 @@ public class State{
 	{
 		boolean fed = false;
 		boolean poisoned = false;
+		if (currentPlayer.getLength() == 1)
+		{
+			currentPlayer.setAlive(false);
+		}
 		if(currentPlayer.getAlive() == true)
 		{
 			Location temp = currentPlayer.getLocation(currentPlayer.getLength()-1);
