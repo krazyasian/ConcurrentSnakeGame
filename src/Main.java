@@ -10,7 +10,7 @@ public class Main {
 		Server server = new Server();
 
 		loginData(server);
-		int players = 100;
+		int players = 1;
 		for(int i=0; i<players ; i++) {
 			Player p1=new Player("Player" + i, i);
 			if(server.login(p1, i))
@@ -34,7 +34,7 @@ public class Main {
 
 		for (int i=0; i<1000; i++)
 		{
-			Thread.sleep(100);
+			Thread.sleep(10);
 			for (int j=0; j<playerList.size();j++)
 			{
 				playerList.replace(j, gameState.move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
