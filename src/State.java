@@ -1,23 +1,24 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.util.*;
 import java.util.concurrent.*;
 
+import javax.swing.JFrame;
+
 
 public class State{
 	
 	//Height of the grid to be set by the server
-	public int gameHeight = 800;
+	public int gameHeight = 1000;
 	//Width of the grid to be set by the server
-	public int gameWidth = 800;
+	public int gameWidth = 1000;
 	private int gameSize = 90;
 	private long speed = 70;
-	private Frame frame = null;
+	private JFrame frame = null;
 	private Canvas canvas = null;
 	private Graphics graph = null;
 	private BufferStrategy strategy = null;
@@ -27,7 +28,7 @@ public class State{
 	
 	//Adding food items
 	public final static int FOOD_BONUS = 2;
-	public final static int FOOD_MALUS = 3;
+	public final static int FOOD_NEGATIVE = 3;
 	public final static int BIG_FOOD_BONUS = 4;
 	
 	
@@ -37,7 +38,7 @@ public class State{
 	//Starting constructor for creating a completely blank grid.
 	public State()
 	{
-		frame = new Frame();
+		frame = new JFrame();
 		canvas = new Canvas();
 		for (int i=0; i<gameHeight; i++ )
 		{
@@ -64,6 +65,7 @@ public class State{
 		canvas.createBufferStrategy(2);
 		strategy = canvas.getBufferStrategy();
 		graph = strategy.getDrawGraphics();
+		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);;
 		
 	}
 	
@@ -91,14 +93,19 @@ public class State{
 						gridCase = grid.get(key).getType();
 						switch (gridCase) {
 						case SNAKE:
-							graph.setColor(Color.red);
+							graph.setColor(Color.yellow);
 							graph.fillOval(i * gridUnit, j * gridUnit,
 									gridUnit, gridUnit);
 							break;
 						case FOOD_BONUS:
-							graph.setColor(Color.white);
+							graph.setColor(Color.green);
 							graph.fillOval(i*gridUnit, j* gridUnit,
-									gridUnit, gridUnit);
+									(gridUnit/2)+3, (gridUnit/2)+3);
+							break;
+						case FOOD_NEGATIVE:
+							graph.setColor(Color.red);
+							graph.fillOval(i*gridUnit, j* gridUnit,
+									(gridUnit/2)+3, (gridUnit/2+3));
 							break;
 						default:
 							break;
@@ -146,17 +153,33 @@ public class State{
 		
 		for(int i=0; i<30; i++)
 		{
-			int x = (int) Math.floor(Math.random()*gameSize)+3;
-			int y = (int) Math.floor(Math.random()*gameSize);
+			int x = (int) Math.floor(Math.random()*gameSize)+1;
+			int y = (int) Math.floor(Math.random()*gameSize)+1;
 			String key = x + "-" + y;
 			if (grid.get(key).getType() == 1)
 			{
-				x = (int) Math.floor(Math.random()*gameSize)+3;
-				y = (int) Math.floor(Math.random()*gameSize);
+				x = (int) Math.floor(Math.random()*gameSize)+1;
+				y = (int) Math.floor(Math.random()*gameSize)+1;
 			}
 			else
 			{
 				grid.replace(key, new Location(x,y,2));
+			}
+		}
+		
+		for(int i=0; i<15; i++)
+		{
+			int x = (int) Math.floor(Math.random()*gameSize)+1;
+			int y = (int) Math.floor(Math.random()*gameSize)+1;
+			String key = x + "-" + y;
+			if (grid.get(key).getType() == 1)
+			{
+				x = (int) Math.floor(Math.random()*gameSize)+1;
+				y = (int) Math.floor(Math.random()*gameSize)+1;
+			}
+			else
+			{
+				grid.replace(key, new Location(x,y,3));
 			}
 		}
 		
@@ -166,6 +189,7 @@ public class State{
 	public Player move(Player currentPlayer, int direction)
 	{
 		boolean fed = false;
+		boolean poisoned = false;
 		if(currentPlayer.getAlive() == true)
 		{
 			Location temp = currentPlayer.getLocation(currentPlayer.getLength()-1);
@@ -326,10 +350,40 @@ public class State{
 			else if (checkCollision(next) == 2)
 			{
 				fed = true;
+				int x = (int) Math.floor(Math.random()*gameSize)+1;
+				int y = (int) Math.floor(Math.random()*gameSize)+1;
+				String key2 = x+"-"+y;
+				while (grid.get(key2).getType() != 0)
+				{
+					x = (int) Math.floor(Math.random()*gameSize)+1;
+					y = (int) Math.floor(Math.random()*gameSize)+1;
+				}
+				//grid.replace(key2, new Location(x,y,2));
+			}
+			else if (checkCollision(next) == 3)
+			{
+				poisoned = true;
+				int x = (int) Math.floor(Math.random()*gameSize)+1;
+				int y = (int) Math.floor(Math.random()*gameSize)+1;
+				String key2 = x+"-"+y;
+				while (grid.get(key2).getType() != 0)
+				{
+					x = (int) Math.floor(Math.random()*gameSize)+1;
+					y = (int) Math.floor(Math.random()*gameSize)+1;
+				}
+				//grid.replace(key2, new Location(x,y,3));
 			}
 			
 			ArrayList<Location> newArray = new ArrayList<Location>();
 			newArray.add(next);
+			if (poisoned == true)
+			{
+				currentPlayer.setLength(currentPlayer.getLength() -1);
+				Location tail = currentPlayer.getLocation(currentPlayer.getLength()-1);
+				grid.replace(tail.getKey(), new Location(tail.getx(), tail.gety(), 0));
+				
+			}
+			
 			grid.replace(next.getKey(), next);
 			
 			for (int i=0; i<currentPlayer.getLength()-1; i++)
@@ -340,7 +394,7 @@ public class State{
 			if (fed == true)
 			{
 				newArray.add(temp);
-				currentPlayer.length +=1;
+				currentPlayer.setLength(currentPlayer.getLength()+1);
 			}
 			currentPlayer.setLocation(newArray);
 			
@@ -359,6 +413,10 @@ public class State{
 		else if (grid.get(next.getKey()).getType() == 2)
 		{
 			return 2;
+		}
+		else if (grid.get(next.getKey()).getType() == 3)
+		{
+			return 3;
 		}
 		return 0;
 	}

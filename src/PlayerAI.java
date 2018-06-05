@@ -1,5 +1,3 @@
-//Currently unused
-
 public class PlayerAI extends Player {
 
 	public PlayerAI(String PlayerName, int PlayerID) {
@@ -8,15 +6,21 @@ public class PlayerAI extends Player {
 		}
 	
 	private void randomMove() {
-		double rand = Math.random()*100;
-		if (rand > 0 && rand < 25) {
+		double rand = Math.random()*200;
+		if (rand >= 25 && rand < 50) {
 			setLastKeyPressed(Move.UP);
-		} else if (rand >= 25 && rand < 50) {
-			setLastKeyPressed(Move.LEFT);
-		} else if (rand >= 50 && rand < 75) {
-			setLastKeyPressed(Move.DOWN);
 		} else if (rand >= 75 && rand < 100) {
+			setLastKeyPressed(Move.LEFT);
+		} else if (rand >= 125 && rand < 150) {
+			setLastKeyPressed(Move.DOWN);
+		} else if (rand >= 175 && rand < 200) {
 			setLastKeyPressed(Move.RIGHT);
+		} else {
+			setLastKeyPressed(Move.NONE);
 		}
+	}
+	
+	private void waitTime() {
+		
 	}
 }

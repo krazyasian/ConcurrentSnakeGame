@@ -102,6 +102,7 @@ public class Server {
 			int playerId = Integer.parseInt(moveList.get(0));
 			int playerMove = Integer.parseInt(moveList.get(1));
 			Player currentPlayer = hmap.get(playerId); //Retrieve the player from the player hashmap
+
 			
 			UpdateSnake update = new UpdateSnake(currentPlayer, playerMove, gameState);
 			
@@ -145,5 +146,6 @@ public class Server {
 	public boolean isRunning() {
 		return running;
 	}
+
 
 }
