@@ -12,9 +12,9 @@ import java.util.concurrent.*;
 public class State{
 	
 	//Height of the grid to be set by the server
-	public int gameHeight = 1000;
+	public int gameHeight = 800;
 	//Width of the grid to be set by the server
-	public int gameWidth = 1000;
+	public int gameWidth = 800;
 	private int gameSize = 90;
 	private long speed = 70;
 	private Frame frame = null;
