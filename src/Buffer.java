@@ -4,7 +4,7 @@ public class Buffer {
 	// Size of the buffer
 	private int n ;
 	// The buffer is implemented as an array 
-	private HashMap<Integer, Integer > bufferMoves = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> bufferMoves = new HashMap<Integer, Integer>();
 
 	private int[] b = new int[n];
 	// The pointers to the append and take positions    
