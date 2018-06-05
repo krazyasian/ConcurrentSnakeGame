@@ -12,6 +12,9 @@ class TestMain {
 	@Test
 	void Buffer()
 	{
+		tempBuffer.append(1,1);
+		assertequals("Checking if append method adds values to buffer: "
+				,"11",tempBuffer.take());
 	}
 	@Test
 	void Location()
