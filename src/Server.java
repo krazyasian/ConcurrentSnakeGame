@@ -91,9 +91,9 @@ public class Server {
 	private synchronized void updateGameInterface () {
 		
 		
-		while(running) {
+		while(isRunning()) {
 			String playerMove = buffer.take();
-			List<String> elephantList = Arrays.asList(playerMove.split("/"));
+			List<String> move = Arrays.asList(playerMove.split("/"));
 			
 			
 		}
@@ -126,6 +126,13 @@ public class Server {
 	 */
 	public static DB getDb() {
 		return db;
+	}
+
+	/**
+	 * @return the running
+	 */
+	public boolean isRunning() {
+		return running;
 	}
 
 }
