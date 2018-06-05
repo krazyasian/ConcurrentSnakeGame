@@ -37,11 +37,9 @@ public class Buffer {
 		bufferMoves.put(id, move);
 		// print out a debug message
 
-		System.out.println(Thread.currentThread().getName() +" added player id: "+id+" move was: "+move+" Count was= "+Count);
+		System.out.println(" Added player id: "+id+" move was: "+move+" Count was= "+Count);
 		// display the state of the buffer for debug purposes   
 		
-		// increment the pointer. Note the pointer must wrap around to the start      
-		InPtr = (InPtr + 1) % n;
 		// Update the count      
 		Count = Count + 1;
 		// If this is the first item added will the consumer thread know?
@@ -59,13 +57,15 @@ public class Buffer {
 			}
 		}   
 		int I = b[OutPtr];
-		System.out.println(Thread.currentThread().getName()+
-				" removed "+I+" at "+OutPtr+" Count was = "+Count);
+		int playerID=Count;
+		System.out.println(
+				"Player id "+playerID+" at "+Count+" Move was = "+bufferMoves.get(Count));
 		
 		OutPtr = (OutPtr+1) % n;    
 		Count = Count-1;
 		notifyAll();
-		return bufferMoves.get(OutPtr)+"/"+OutPtr;
+		//return Moves / playerId
+		return bufferMoves.get(Count)+"/"+playerID;
 	}
 
 

@@ -25,7 +25,7 @@ public class Server {
 	private static DB db;
 	//open an collection, TreeMap has better performance then HashMap
 	private static ConcurrentNavigableMap<Integer,String> players;
-	private static ConcurrentNavigableMap<String,Integer> passwords;
+	private static ConcurrentNavigableMap<Integer,String> passwords;
 
 
 	//**CONSTRUCTOR
@@ -44,12 +44,26 @@ public class Server {
 		passwords = db.getTreeMap("Passwords");
 	}
 
+	
+	
+	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
+			public synchronized static void loginData()
+			{
+				for(int i=0;i<100;i++)
+				{
+					Player player = new Player("Player"+i,i);
+					players.put(i, player.getPlayerName());
+					passwords.put(i,""+i);
+				}
+			}
+			
+			// **<=
+			
 	//verify login player **=>
-	public synchronized static boolean login (Player player, int password) {
+	public synchronized static boolean login (Player player, String password) {
 		if(getPlayer(player.getPlayerName(),password))
 		{
 			putPlayerInHashMap(player.getPlayerID(),player);
-			System.out.println("putting player in hashMap, Name: "+player.getPlayerName());
 			return true;
 		}
 		return false;
@@ -57,13 +71,13 @@ public class Server {
 
 	//checks if player exists in record and
 	//returns true if it does
-	public static boolean getPlayer(String name, int password)
+	public static boolean getPlayer(String name, String password)
 	{
 		for(int i=0;i<100;i++)
 		{
 			//player index in players database and his password index 
 			//in passwords is same so we are checking if player and their password matches
-			if(getPlayers().get(i).equals(name) && password==i)
+			if(players.get(i).equals(name) && passwords.get(i).equals(password))
 			{
 				return true;
 			}
@@ -71,7 +85,7 @@ public class Server {
 		return false;
 	}
 
-	//puts player in hashmap if login was successful **=>
+	//puts player in hashmap  **=>
 	public static void putPlayerInHashMap(int playerId,Player player)
 	{
 		hmap.put(playerId,player);
@@ -117,7 +131,7 @@ public class Server {
 		Server.players = players;
 	}
 
-	public static ConcurrentNavigableMap<String,Integer> getPasswords() {
+	public static ConcurrentNavigableMap<Integer, String> getPasswords() {
 		return passwords;
 	}
 
