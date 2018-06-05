@@ -26,18 +26,20 @@ public class Main {
 
 
 		State gameState = new State();
-
+		Server gameServer = new Server();
 
 
 		gameState.populate(playerList, playerList.size());
 		gameState.render();
+		
 
 		for (int i=0; i<1000; i++)
 		{
 			Thread.sleep(200);
 			for (int j=0; j<playerList.size();j++)
 			{
-				playerList.replace(j, gameState.move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
+				gameServer.getBuffer().append(j, (int) Math.floor(Math.random()*4)+1);
+				//playerList.replace(j, gameState.move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
 			}
 
 			gameState.render();

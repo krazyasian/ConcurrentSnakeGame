@@ -78,7 +78,7 @@ public class Server {
 	}
 
 	//pull moves from the buffer
-	private Buffer getBuffer () {
+	public Buffer getBuffer () {
 		return buffer;
 	}
 
