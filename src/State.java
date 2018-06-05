@@ -12,9 +12,9 @@ import java.util.concurrent.*;
 public class State{
 	
 	//Height of the grid to be set by the server
-	public int gameHeight = 800;
+	public int gameHeight = 1000;
 	//Width of the grid to be set by the server
-	public int gameWidth = 800;
+	public int gameWidth = 1000;
 	private int gameSize = 90;
 	private long speed = 70;
 	private Frame frame = null;
@@ -27,7 +27,7 @@ public class State{
 	
 	//Adding food items
 	public final static int FOOD_BONUS = 2;
-	public final static int FOOD_MALUS = 3;
+	public final static int FOOD_NEGATIVE = 3;
 	public final static int BIG_FOOD_BONUS = 4;
 	
 	
@@ -91,14 +91,19 @@ public class State{
 						gridCase = grid.get(key).getType();
 						switch (gridCase) {
 						case SNAKE:
-							graph.setColor(Color.red);
+							graph.setColor(Color.yellow);
 							graph.fillOval(i * gridUnit, j * gridUnit,
 									gridUnit, gridUnit);
 							break;
 						case FOOD_BONUS:
-							graph.setColor(Color.white);
+							graph.setColor(Color.green);
 							graph.fillOval(i*gridUnit, j* gridUnit,
-									gridUnit, gridUnit);
+									(gridUnit/2)+3, (gridUnit/2)+3);
+							break;
+						case FOOD_NEGATIVE:
+							graph.setColor(Color.red);
+							graph.fillOval(i*gridUnit, j* gridUnit,
+									(gridUnit/2)+3, (gridUnit/2+3));
 							break;
 						default:
 							break;
@@ -146,17 +151,33 @@ public class State{
 		
 		for(int i=0; i<30; i++)
 		{
-			int x = (int) Math.floor(Math.random()*gameSize)+3;
+			int x = (int) Math.floor(Math.random()*gameSize);
 			int y = (int) Math.floor(Math.random()*gameSize);
 			String key = x + "-" + y;
 			if (grid.get(key).getType() == 1)
 			{
-				x = (int) Math.floor(Math.random()*gameSize)+3;
+				x = (int) Math.floor(Math.random()*gameSize);
 				y = (int) Math.floor(Math.random()*gameSize);
 			}
 			else
 			{
 				grid.replace(key, new Location(x,y,2));
+			}
+		}
+		
+		for(int i=0; i<15; i++)
+		{
+			int x = (int) Math.floor(Math.random()*gameSize);
+			int y = (int) Math.floor(Math.random()*gameSize);
+			String key = x + "-" + y;
+			if (grid.get(key).getType() == 1)
+			{
+				x = (int) Math.floor(Math.random()*gameSize);
+				y = (int) Math.floor(Math.random()*gameSize);
+			}
+			else
+			{
+				grid.replace(key, new Location(x,y,3));
 			}
 		}
 		
@@ -166,6 +187,7 @@ public class State{
 	public Player move(Player currentPlayer, int direction)
 	{
 		boolean fed = false;
+		boolean poisoned = false;
 		if(currentPlayer.getAlive() == true)
 		{
 			Location temp = currentPlayer.getLocation(currentPlayer.getLength()-1);
@@ -326,10 +348,40 @@ public class State{
 			else if (checkCollision(next) == 2)
 			{
 				fed = true;
+				int x = (int) Math.floor(Math.random()*gameSize);
+				int y = (int) Math.floor(Math.random()*gameSize);
+				String key2 = x+"-"+y;
+				while (grid.get(key2).getType() != 0)
+				{
+					x = (int) Math.floor(Math.random()*gameSize);
+					y = (int) Math.floor(Math.random()*gameSize);
+				}
+				grid.replace(key2, new Location(x,y,2));
+			}
+			else if (checkCollision(next) == 3)
+			{
+				poisoned = true;
+				int x = (int) Math.floor(Math.random()*gameSize);
+				int y = (int) Math.floor(Math.random()*gameSize);
+				String key2 = x+"-"+y;
+				while (grid.get(key2).getType() != 0)
+				{
+					x = (int) Math.floor(Math.random()*gameSize);
+					y = (int) Math.floor(Math.random()*gameSize);
+				}
+				grid.replace(key2, new Location(x,y,3));
 			}
 			
 			ArrayList<Location> newArray = new ArrayList<Location>();
 			newArray.add(next);
+			if (poisoned == true)
+			{
+				currentPlayer.setLength(currentPlayer.getLength() -1);
+				Location tail = currentPlayer.getLocation(currentPlayer.getLength()-1);
+				grid.replace(tail.getKey(), new Location(tail.getx(), tail.gety(), 0));
+				
+			}
+			
 			grid.replace(next.getKey(), next);
 			
 			for (int i=0; i<currentPlayer.getLength()-1; i++)
@@ -340,7 +392,7 @@ public class State{
 			if (fed == true)
 			{
 				newArray.add(temp);
-				currentPlayer.length +=1;
+				currentPlayer.setLength(currentPlayer.getLength()+1);
 			}
 			currentPlayer.setLocation(newArray);
 			
@@ -359,6 +411,10 @@ public class State{
 		else if (grid.get(next.getKey()).getType() == 2)
 		{
 			return 2;
+		}
+		else if (grid.get(next.getKey()).getType() == 3)
+		{
+			return 3;
 		}
 		return 0;
 	}
