@@ -10,10 +10,9 @@ public class Player implements Runnable {
 	//Array list containing Location objects which show what squares in the grid this player occupies
 	public int length = 4;
 	public ArrayList<Location> locations = new ArrayList<Location>(); 
-	
 	public Player(String PlayerName, int PlayerID) {
 		this.PlayerName  = PlayerName;
-		this.alive = false;
+		this.alive = true;
 		this.PlayerID = PlayerID;
 		int LocX;
 		int LocY;
@@ -51,6 +50,10 @@ public class Player implements Runnable {
 		return this.length;
 	}
 	
+	public void setLength(int length)
+	{
+		this.length = length;
+	}
 	public int getFacing()
 	{
 		return this.facing;
@@ -60,7 +63,16 @@ public class Player implements Runnable {
 	{
 		this.facing = direction;
 	}
+
+	public void setAlive(boolean alive)
+	{
+		this.alive = alive;
+	}
 	
+	public boolean getAlive()
+	{
+		return this.alive;
+	}
 	public void keyPressed(KeyEvent arg0) {
 		int key = arg0.getKeyCode();
 		

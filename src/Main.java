@@ -34,7 +34,7 @@ public class Main {
 
 		for (int i=0; i<1000; i++)
 		{
-			Thread.sleep(100);
+			Thread.sleep(10);
 			for (int j=0; j<playerList.size();j++)
 			{
 				playerList.replace(j, gameState.move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));

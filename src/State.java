@@ -26,9 +26,9 @@ public class State{
 	
 	
 	//Adding food items
-	public final static int FOOD_BONUS = 1;
-	public final static int FOOD_MALUS = 2;
-	public final static int BIG_FOOD_BONUS = 3;
+	public final static int FOOD_BONUS = 2;
+	public final static int FOOD_MALUS = 3;
+	public final static int BIG_FOOD_BONUS = 4;
 	
 	
 	ConcurrentHashMap<String, Location> grid = new ConcurrentHashMap<String, Location>();
@@ -95,8 +95,8 @@ public class State{
 							graph.fillOval(i * gridUnit, j * gridUnit,
 									gridUnit, gridUnit);
 							break;
-						case FOOD_MALUS:
-							graph.setColor(Color.orange);
+						case FOOD_BONUS:
+							graph.setColor(Color.white);
 							graph.fillOval(i*gridUnit, j* gridUnit,
 									gridUnit, gridUnit);
 							break;
@@ -140,6 +140,24 @@ public class State{
 			
 			players.replace(i, currentPlayer);
 			
+			
+			
+		}
+		
+		for(int i=0; i<30; i++)
+		{
+			int x = (int) Math.floor(Math.random()*gameSize)+3;
+			int y = (int) Math.floor(Math.random()*gameSize);
+			String key = x + "-" + y;
+			if (grid.get(key).getType() == 1)
+			{
+				x = (int) Math.floor(Math.random()*gameSize)+3;
+				y = (int) Math.floor(Math.random()*gameSize);
+			}
+			else
+			{
+				grid.replace(key, new Location(x,y,2));
+			}
 		}
 		
 		return players;
@@ -147,160 +165,202 @@ public class State{
 	
 	public Player move(Player currentPlayer, int direction)
 	{
-		Location temp = currentPlayer.getLocation(currentPlayer.getLength()-1);
-		String key = temp.getKey();
-		temp.setType(EMPTY);
-		grid.replace(key, temp);
-		
-		Location head = currentPlayer.getLocation(0);
-		Location next = head;
-		//move right
-		if (direction == 1)
+		boolean fed = false;
+		if(currentPlayer.getAlive() == true)
 		{
-			if (currentPlayer.getFacing() != 4)
+			Location temp = currentPlayer.getLocation(currentPlayer.getLength()-1);
+			String key = temp.getKey();
+			temp.setType(EMPTY);
+			grid.replace(key, temp);
+			
+			Location head = currentPlayer.getLocation(0);
+			Location next = head;
+			//move right
+			if (direction == 1)
 			{
-				int newx;
-				if (head.getx() == gameSize-1)
+				if (currentPlayer.getFacing() != 4)
 				{
-					newx = 1;
+					int newx;
+					if (head.getx() == gameSize-1)
+					{
+						newx = 1;
+					}
+					else 
+					{
+						newx = head.getx() +1;
+					}
+					next = new Location(newx, head.gety(), 1);
+					currentPlayer.setFacing(1);
 				}
 				else 
 				{
-					newx = head.getx() +1;
+					int newx;
+					if (head.getx() == 0)
+					{
+						newx = gameSize-1;
+					}
+					else 
+					{
+						newx = head.getx() -1;
+					}
+					next = new Location(newx, head.gety(), 1);
+					currentPlayer.setFacing(4);
 				}
-				next = new Location(newx, head.gety(), 1);
-				currentPlayer.setFacing(1);
+				
 			}
-			else 
+			//move down
+			else if (direction == 2)
 			{
-				int newx;
-				if (head.getx() == 0)
+				if (currentPlayer.getFacing() != 3)
 				{
-					newx = gameSize-1;
+					int newy;
+					if (head.gety() == gameSize-1)
+					{
+						newy = 1;
+					}
+					else 
+					{
+						newy = head.gety() +1;
+					}
+					next = new Location(head.getx(), newy, 1);
+					currentPlayer.setFacing(2);
 				}
-				else 
+				else
 				{
-					newx = head.getx() -1;
+					int newy;
+					if (head.gety() == 0)
+					{
+						newy = gameSize-1;
+					}
+					else 
+					{
+						newy = head.gety() -1;
+					}
+					next = new Location(head.getx(), newy, 1);
+					currentPlayer.setFacing(3);
 				}
-				next = new Location(newx, head.gety(), 1);
-				currentPlayer.setFacing(4);
+				
+			}
+			//move up
+			else if (direction == 3)
+			{
+				
+				if (currentPlayer.getFacing() != 2)
+				{
+					int newy;
+					if (head.gety() == 0)
+					{
+						newy = gameSize-1;
+					}
+					else 
+					{
+						newy = head.gety() -1;
+					}
+					next = new Location(head.getx(), newy, 1);
+					currentPlayer.setFacing(3);
+				}
+				else
+				{
+					int newy;
+					if (head.gety() == gameSize-1)
+					{
+						newy = 1;
+					}
+					else 
+					{
+						newy = head.gety() +1;
+					}
+					next = new Location(head.getx(), newy, 1);
+					currentPlayer.setFacing(2);
+				}
+				
+			}
+			//move left
+			else if (direction == 4)
+			{
+				if (currentPlayer.getFacing() != 1)
+				{
+					int newx;
+					if (head.getx() == 0)
+					{
+						newx = gameSize-1;
+					}
+					else 
+					{
+						newx = head.getx() -1;
+					}
+					next = new Location(newx, head.gety(), 1);
+					currentPlayer.setFacing(4);
+				}
+				else
+				{
+					int newx;
+					if (head.getx() == gameSize-1)
+					{
+						newx = 1;
+					}
+					else 
+					{
+						newx = head.getx() +1;
+					}
+					next = new Location(newx, head.gety(), 1);
+					currentPlayer.setFacing(1);
+				}
+				
 			}
 			
-		}
-		//move down
-		else if (direction == 2)
-		{
-			if (currentPlayer.getFacing() != 3)
+			if (checkCollision(next) == 1)
 			{
-				int newy;
-				if (head.gety() == gameSize-1)
+				currentPlayer.setAlive(false);
+				for (int i=0; i<currentPlayer.getLength(); i++)
 				{
-					newy = 1;
+					Location fragment = currentPlayer.getLocation(i);
+					fragment.setType(0);
+					grid.replace(fragment.getKey(), fragment);
+					
+					
 				}
-				else 
-				{
-					newy = head.gety() +1;
-				}
-				next = new Location(head.getx(), newy, 1);
-				currentPlayer.setFacing(2);
+				currentPlayer.setLength(0);
+				return currentPlayer;
 			}
-			else
+			else if (checkCollision(next) == 2)
 			{
-				int newy;
-				if (head.gety() == 0)
-				{
-					newy = gameSize-1;
-				}
-				else 
-				{
-					newy = head.gety() -1;
-				}
-				next = new Location(head.getx(), newy, 1);
-				currentPlayer.setFacing(3);
+				fed = true;
 			}
 			
-		}
-		//move up
-		else if (direction == 3)
-		{
+			ArrayList<Location> newArray = new ArrayList<Location>();
+			newArray.add(next);
+			grid.replace(next.getKey(), next);
 			
-			if (currentPlayer.getFacing() != 2)
+			for (int i=0; i<currentPlayer.getLength()-1; i++)
 			{
-				int newy;
-				if (head.gety() == 0)
-				{
-					newy = gameSize-1;
-				}
-				else 
-				{
-					newy = head.gety() -1;
-				}
-				next = new Location(head.getx(), newy, 1);
-				currentPlayer.setFacing(3);
-			}
-			else
-			{
-				int newy;
-				if (head.gety() == gameSize-1)
-				{
-					newy = 1;
-				}
-				else 
-				{
-					newy = head.gety() +1;
-				}
-				next = new Location(head.getx(), newy, 1);
-				currentPlayer.setFacing(2);
+				newArray.add(currentPlayer.getLocation(i));
 			}
 			
-		}
-		//move left
-		else if (direction == 4)
-		{
-			if (currentPlayer.getFacing() != 1)
+			if (fed == true)
 			{
-				int newx;
-				if (head.getx() == 0)
-				{
-					newx = gameSize-1;
-				}
-				else 
-				{
-					newx = head.getx() -1;
-				}
-				next = new Location(newx, head.gety(), 1);
-				currentPlayer.setFacing(4);
+				newArray.add(temp);
+				currentPlayer.length +=1;
 			}
-			else
-			{
-				int newx;
-				if (head.getx() == gameSize-1)
-				{
-					newx = 1;
-				}
-				else 
-				{
-					newx = head.getx() +1;
-				}
-				next = new Location(newx, head.gety(), 1);
-				currentPlayer.setFacing(1);
-			}
+			currentPlayer.setLocation(newArray);
 			
 		}
 		
-		
-		ArrayList<Location> newArray = new ArrayList<Location>();
-		newArray.add(next);
-		grid.replace(next.getKey(), next);
-		
-		for (int i=0; i<currentPlayer.getLength()-1; i++)
-		{
-			newArray.add(currentPlayer.getLocation(i));
-		}
-		
-		currentPlayer.setLocation(newArray);
 		
 		return currentPlayer;
+	}
+	
+	public int checkCollision(Location next)
+	{
+		if (grid.get(next.getKey()).getType() == 1)
+		{
+			return 1;
+		}
+		else if (grid.get(next.getKey()).getType() == 2)
+		{
+			return 2;
+		}
+		return 0;
 	}
 	
 	public Location getGridLoc(int x, int y)
