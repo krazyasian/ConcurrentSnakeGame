@@ -37,14 +37,11 @@ public class Main {
 			}
 		}
 
-		HashMap<Integer, Player> playerList = gameServer.hmap;
+		HashMap<Integer, Player> playerList = Server.hmap;
 
 		gameServer.getGameState().populate(playerList, playerList.size());
 		gameServer.getGameState().render();
-
-//		while(gameServer.isRunning())
-//		{
-//			
+		
 			for (int j=players; j<playerList.size();j++)
 			{
 				final int a = j;
@@ -68,18 +65,8 @@ public class Main {
 					  };
 					
 					thread.start();
-
-				
-//				playerList.replace(j, gameServer.getGameState().move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
 			}
 
-//			gameServer.getGameState().render();
-//		}
-//		
-//		//Testing 
-//		String moveAndPlayerID=
-//		gameServer.getBuffer().take();
-//		System.out.println("This is move: "+moveAndPlayerID.split("/"));
 	}
 
 	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
@@ -87,8 +74,8 @@ public class Main {
 	{
 		for(int i=0;i<numbers;i++)
 		{
-			server.getPlayers().put(i,"Player"+i);
-			server.getPasswords().put("Player"+i,i);
+			Server.getPlayers().put(i,"Player"+i);
+			Server.getPasswords().put("Player"+i,i);
 		}
 	}
 }
