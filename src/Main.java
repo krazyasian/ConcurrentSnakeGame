@@ -8,9 +8,9 @@ public class Main {
 				+ " the database :) + IF TRUE then Start State");
 
 		Server gameServer = new Server();
-
 		loginData(gameServer);
 		int players = 100;
+		
 		for(int i=0; i<players ; i++) {
 			Player p1=new Player("Player" + i, i);
 			if(gameServer.login(p1, i))
@@ -48,12 +48,13 @@ public class Main {
 
 			gameServer.getGameState().render();
 		}
-
-
-		//System.exit(0);
-		//** TODO :- Pass Moves to G here
+		
+		//Testing 
+		String moveAndPlayerID=
+		gameServer.getBuffer().take();
+		System.out.println("This is move: "+moveAndPlayerID.split("/"));
 	}
-	
+
 	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
 	public synchronized static void loginData(Server server)
 	{
@@ -63,5 +64,4 @@ public class Main {
 			server.getPasswords().put("Player"+i,i);
 		}
 	}
-
 }

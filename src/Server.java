@@ -11,8 +11,6 @@ import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Utils;
 
-
-
 public class Server {
 
 	private Buffer buffer;
@@ -50,34 +48,50 @@ public class Server {
 		passwords = db.getTreeMap("Passwords");
 	}
 
+	
+	//Warning ! Don't do anything with this method
+	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
+			public synchronized static void loginData()
+			{
+				for(int i=0;i<100;i++)
+				{
+					Player player = new Player("Player"+i,i);
+					players.put(i, player.getPlayerName());
+					passwords.put(""+i,i);
+				}
+			}
+			
+			// **<=
+			//Warning ! Don't do anything with this method
 	//verify login player **=>
 	public synchronized static boolean login (Player player, int password) {
 		if(getPlayer(player.getPlayerName(),password))
 		{
 			putPlayerInHashMap(player.getPlayerID(),player);
-			System.out.println("putting player in hashMap, Name: "+player.getPlayerName());
 			return true;
 		}
 		return false;
 	}
-
+	
+	//Warning ! Don't do anything with this method
 	//checks if player exists in record and
 	//returns true if it does
 	public static boolean getPlayer(String name, int password)
 	{
-		for(int i=0;i<100;i++)
-		{
+//		for(int i=0;i<100;i++)
+//		{
 			//player index in players database and his password index 
 			//in passwords is same so we are checking if player and their password matches
-			if(getPlayers().get(i).equals(name) && password==i)
+			if(players.get(password).equals(name) && passwords.get(name).equals(password))
 			{
 				return true;
 			}
-		}
+//		}
 		return false;
 	}
-
-	//puts player in hashmap if login was successful **=>
+	
+	//Warning ! Don't do anything with this method
+	//puts player in hashmap  **=>
 	public static void putPlayerInHashMap(int playerId,Player player)
 	{
 		hmap.put(playerId,player);
@@ -95,8 +109,6 @@ public class Server {
 
 	//updates the game interface with the new moves coming from the players
 	public synchronized void updateGameInterface () {
-		
-		
 		
 			String stringBuffer = buffer.take();
 			List<String> moveList = Arrays.asList(stringBuffer.split("/")); //split the string to get the playerId and move
@@ -128,7 +140,7 @@ public class Server {
 		Server.players = players;
 	}
 
-	public static ConcurrentNavigableMap<String,Integer> getPasswords() {
+	public static ConcurrentNavigableMap<String, Integer> getPasswords() {
 		return passwords;
 	}
 

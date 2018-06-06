@@ -26,11 +26,7 @@ public class Buffer {
 		// Place the value in the buffer     
 		bufferMoves.add(id + "/" + move);
 		// print out a debug message
-
-		System.out.println(Thread.currentThread().getName() +" added player id: 		"+id+" move was: "+move);
-		
-		this.notifyAll();
-
+		System.out.println(Thread.currentThread().getName() +" added player id: "+id+" move was: "+move);
 	}
 
 	public synchronized String take () {
@@ -41,7 +37,7 @@ public class Buffer {
 			{
 				
 			}
-		}   
+		}
 
 		String playerMove = bufferMoves.get(0);
 		bufferMoves.remove(0);
