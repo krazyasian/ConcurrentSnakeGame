@@ -23,7 +23,9 @@ public class Main {
 		}
 
 		HashMap<Integer, Player> playerList = gameServer.hmap;
+
 		gameServer.getGameState().populate(playerList, playerList.size());
+//		gameState.render();
 
 		while(gameServer.isRunning())
 		{
