@@ -19,8 +19,8 @@ public class State {
 	public int gameHeight = 800;
 	//Width of the grid to be set by the server
 	public int gameWidth = 800;
+	private long speed = 500;
 	protected int gameSize = 100;
-	private long speed = 200;
 	protected JFrame frame = null;
 	protected Canvas canvas = null;
 	protected Graphics graph = null;
