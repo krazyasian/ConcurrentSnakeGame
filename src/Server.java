@@ -78,20 +78,15 @@ public class Server {
 	//returns true if it does
 	public static boolean getPlayer(String name, int password)
 	{
-//		for(int i=0;i<100;i++)
-//		{
-			//player index in players database and his password index 
-			//in passwords is same so we are checking if player and their password matches
-			if(players.get(password).equals(name) && passwords.get(name).equals(password))
-			{
-				return true;
-			}
-//		}
+		if(players.get(password).equals(name) && passwords.get(name).equals(password)) {
+			return true;
+		}	
+		
 		return false;
 	}
 	
 	//Warning ! Don't do anything with this method
-	//puts player in hashmap  **=>
+	//puts player in hashmap 
 	public static void putPlayerInHashMap(int playerId,Player player)
 	{
 		hmap.put(playerId,player);
