@@ -1,4 +1,6 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,6 +8,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.swing.Timer;
 
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -18,6 +22,7 @@ public class Server {
 	private boolean running;
 	private int processors;
 	private ExecutorService executorService;
+	private HashMap<Player, Integer> playerMoves;
 
 	//hashmap / looby to store the values of player name 
 	//and their corresponding thread
@@ -37,6 +42,7 @@ public class Server {
 		running = true;
 		processors = Runtime.getRuntime().availableProcessors();
 		executorService = Executors.newFixedThreadPool(processors);
+		playerMoves = new HashMap<Player, Integer>();
 		hmap = new HashMap<Integer, Player>();
 		dbFile = Utils.tempDbFile();
 		db = DBMaker.newFileDB(dbFile)
@@ -46,28 +52,17 @@ public class Server {
 
 		players = db.getTreeMap("Players");
 		passwords = db.getTreeMap("Passwords");
+		
+//		updateLoop();
 	}
-
 	
 	//Warning ! Don't do anything with this method
-	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
-			public synchronized static void loginData()
-			{
-				for(int i=0;i<100;i++)
-				{
-					Player player = new Player("Player"+i,i);
-					players.put(i, player.getPlayerName());
-					passwords.put(""+i,i);
-				}
-			}
-			
-			// **<=
-			//Warning ! Don't do anything with this method
-	//verify login player **=>
-	public synchronized static boolean login (Player player, int password) {
+	//verify login player
+	public synchronized boolean login (Player player, int password) {
 		if(getPlayer(player.getPlayerName(),password))
 		{
 			putPlayerInHashMap(player.getPlayerID(),player);
+			playerMoves.put(player, 1);
 			return true;
 		}
 		return false;
@@ -99,7 +94,7 @@ public class Server {
 
 	//notify the players to update their game state
 	private void notifyPlayers () {
-
+		
 	}
 
 	//updates the game interface with the new moves coming from the players
@@ -112,16 +107,18 @@ public class Server {
 			Player currentPlayer = hmap.get(playerId); //Retrieve the player from the player hashmap
 			
 			UpdateSnake update = new UpdateSnake(currentPlayer, playerMove, getGameState());
-			
 			executorService.execute(update);
-
+	
 	}
-
-	private synchronized Thread addThread () {
-		return new Thread();
+	
+	protected void updateLoop() {
+		int delay = 1000 / 25;
+		new Timer(delay, new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				updateGameInterface();
+			}
+		}).start();
 	}
-
-
 	private synchronized void removePlayer (Player removePlayer) {
 		hmap.remove(removePlayer);
 	}

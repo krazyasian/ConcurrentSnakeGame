@@ -1,10 +1,15 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 
+import javax.swing.Timer;
+
 public class Player implements Runnable, KeyListener {
 
-	public static Buffer myBuffer;
+	private static Buffer myBuffer;
+	private Server myServer;
 	
 	public String playerName = "PlayerName";
 	public boolean alive;
@@ -12,26 +17,29 @@ public class Player implements Runnable, KeyListener {
 	public int facing = 1;
 	//Array list containing Location objects which show what squares in the grid this player occupies
 	public int length = 4;
+	private int move = 1;
 	public ArrayList<Location> locations = new ArrayList<Location>(); 
-
-	
-
-
-	public Player(String PlayerName, int PlayerID) {
-		this.playerName  = PlayerName;
-		this.alive = true;
-		this.playerID = PlayerID;
-
-		int LocX;
-		int LocY;
-		resetLastKeyPressed();
-	}
 
 	public static enum Move {
 		UP, DOWN, LEFT, RIGHT, NONE;
 	}
 
 	Move lastKeyPressed = null;
+
+
+	public Player(String PlayerName, int PlayerID, Buffer buffer, Server server) {
+		this.playerName  = PlayerName;
+		this.alive = true;
+		this.playerID = PlayerID;
+		this.myBuffer = buffer;
+		this.myServer = server;
+
+		int LocX;
+		int LocY;
+		resetLastKeyPressed();
+		sendToBuffer();
+	}
+
 
 	public void run()
 	{
@@ -89,17 +97,19 @@ public class Player implements Runnable, KeyListener {
 
 		if (key == KeyEvent.VK_UP) {
 			setLastKeyPressed(Move.UP);
+			move = 3;
 		} else if(key == KeyEvent.VK_DOWN) {
 			setLastKeyPressed(Move.DOWN);
+			move = 2;
 		} else if(key == KeyEvent.VK_LEFT) {
 			setLastKeyPressed(Move.LEFT);
+			move = 4;
 		} else if(key == KeyEvent.VK_RIGHT) {
 			setLastKeyPressed(Move.RIGHT);
+			move = 1;
 		} else if(key == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		}
-		
-		sendToBuffer(key);
 	}
 
 	@Override
@@ -107,8 +117,32 @@ public class Player implements Runnable, KeyListener {
 		setLastKeyPressed(Move.NONE);
 	}
 	
-	public void sendToBuffer(int key) {
-		myBuffer.append(this.playerID, key);
+	public void sendToBuffer() {
+		Thread thread = new Thread(){
+		    public void run(){
+		    	while(myServer.isRunning()) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					myBuffer.append(playerID, move);
+					myServer.updateGameInterface();
+				}
+		    }
+		  };
+		
+		thread.start();	
+	}
+	
+	protected void updateLoop() {
+		int delay = 1000 / 25;
+		new Timer(delay, new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				sendToBuffer();
+			}
+		}).start();
 	}
 
 	@Override

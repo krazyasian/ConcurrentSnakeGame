@@ -7,7 +7,7 @@ class TestMain {
 	Buffer tempBuffer = new Buffer(5);
 	Location tempLocation = new Location(3, 3, 3);
 	Login tempLogin = new Login(1,"Player1");
-	Player tempPlayer = new Player("Player1", 1);
+	Player tempPlayer = new Player("Player1", 1, tempBuffer, new Server());
 	
 	@Test
 	void Buffer()

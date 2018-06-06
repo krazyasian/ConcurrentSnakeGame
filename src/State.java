@@ -3,28 +3,30 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import java.util.*;
 import java.util.concurrent.*;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 
-public class State{
+public class State {
 	
 	//Height of the grid to be set by the server
-	public int gameHeight = 600;
+	public int gameHeight = 800;
 	//Width of the grid to be set by the server
 	public int gameWidth = 800;
-	private int gameSize = 90;
-	private long speed = 70;
-	private JFrame frame = null;
-	private Canvas canvas = null;
-	private Graphics graph = null;
-	private BufferStrategy strategy = null;
+	private int gameSize = 100;
+	private long speed = 200;
+	protected JFrame frame = null;
+	protected Canvas canvas = null;
+	protected Graphics graph = null;
+	protected BufferStrategy strategy = null;
 	public final static int EMPTY = 0;
 	public final static int SNAKE = 1;
-	
 	
 	//Adding food items
 	public final static int FOOD_BONUS = 2;
@@ -65,7 +67,9 @@ public class State{
 		canvas.createBufferStrategy(2);
 		strategy = canvas.getBufferStrategy();
 		graph = strategy.getDrawGraphics();
-		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);;
+		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+		
+		renderLoop();
 		
 	}
 	
@@ -119,6 +123,18 @@ public class State{
 			strategy.show();
 			Toolkit.getDefaultToolkit().sync();
 		} while (strategy.contentsLost());
+	}
+	
+	/**
+	 * Starts the rendering loop. This is done using a timer.
+	 */
+	protected void renderLoop() {
+		int delay = 1000 / 25;
+		new Timer(delay, new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				render();
+			}
+		}).start();
 	}
 	
 	public Player populate(Player currentPlayer)
