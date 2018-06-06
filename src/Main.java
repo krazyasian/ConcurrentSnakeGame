@@ -7,13 +7,13 @@ public class Main {
 		System.out.println("Checking if Login details matches with"
 				+ " the database :) + IF TRUE then Start State");
 
-		Server server = new Server();
+		Server gameServer = new Server();
 
-		loginData(server);
-		int players = 300;
+		loginData(gameServer);
+		int players = 100;
 		for(int i=0; i<players ; i++) {
 			Player p1=new Player("Player" + i, i);
-			if(server.login(p1, i))
+			if(gameServer.login(p1, i))
 			{
 				System.out.println("Login was correct");
 			}
@@ -22,27 +22,29 @@ public class Main {
 			}
 		}
 
-		HashMap<Integer, Player> playerList = server.hmap;
+		HashMap<Integer, Player> playerList = gameServer.hmap;
+		gameServer.getGameState().populate(playerList, playerList.size());
 
-
-		State gameState = new State();
-		Server gameServer = new Server();
-
-
-		gameState.populate(playerList, playerList.size());
-		gameState.render();
-		
-
-		for (int i=0; i<1000; i++)
+		while(gameServer.isRunning())
 		{
 			Thread.sleep(200);
 			for (int j=0; j<playerList.size();j++)
 			{
-				gameServer.getBuffer().append(j, (int) Math.floor(Math.random()*4)+1);
-				//playerList.replace(j, gameState.move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
+				final int a = j;
+				 
+				Thread thread = new Thread(){
+				    public void run(){
+				    	gameServer.getBuffer().append(a, (int) Math.floor(Math.random()*4)+1);
+						gameServer.updateGameInterface();
+				    }
+				  };
+				
+				thread.start();
+				
+//				playerList.replace(j, gameServer.getGameState().move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
 			}
 
-			gameState.render();
+			gameServer.getGameState().render();
 		}
 
 
