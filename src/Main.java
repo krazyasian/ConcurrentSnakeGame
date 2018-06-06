@@ -8,16 +8,19 @@ public class Main {
 				+ " the database :) + IF TRUE then Start State");
 
 		Server gameServer = new Server();
-		loginData(gameServer);
-		int players = 4;
+		int numbers = 10;
 		
-		for(int i=0; i<players ; i++) {
+		//Creating login data for quantity players
+		loginData(gameServer,numbers);
+		for(int i=0; i<numbers ; i++) {
 			Player p1=new Player("Player" + i, i, gameServer.getBuffer(), gameServer);
 			if(gameServer.login(p1, i))
 			{
 				System.out.println("Login was correct");
+				if(i<4)
+				{
 				PlayerWindow  playerWindow= new PlayerWindow(p1, gameServer.getGameState());
-
+				}
 			}
 			else {
 				System.out.println("Login wasn't correct");
@@ -60,9 +63,9 @@ public class Main {
 	}
 
 	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
-	public synchronized static void loginData(Server server)
+	public synchronized static void loginData(Server server,int numbers)
 	{
-		for(int i=0;i<4;i++)
+		for(int i=0;i<numbers;i++)
 		{
 			server.getPlayers().put(i,"Player"+i);
 			server.getPasswords().put("Player"+i,i);
