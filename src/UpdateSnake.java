@@ -16,6 +16,7 @@ public class UpdateSnake implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		_state.move(_player, _move);
+//		_state.render();
 	}
 
 }
