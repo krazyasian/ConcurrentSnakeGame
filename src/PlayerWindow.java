@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JFrame;
+
 
 
 public class PlayerWindow extends State implements KeyListener, WindowListener {
@@ -22,7 +24,8 @@ public class PlayerWindow extends State implements KeyListener, WindowListener {
 		super();
 		_player = player;
 		_state = state;
-		
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle(_player.getPlayerName() + "'s Snake");
 //		state.populate(player);
 		init();
 		

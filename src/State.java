@@ -42,6 +42,7 @@ public class State {
 	{
 		frame = new JFrame();
 		canvas = new Canvas();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		for (int i=0; i<gameHeight; i++ )
 		{
 			for (int j=0; j<gameWidth; j++)
@@ -59,7 +60,7 @@ public class State {
 		frame.add(canvas);
 		frame.dispose();
 		frame.validate();
-		frame.setTitle("Snake");
+		frame.setTitle("Snake Server");
 		frame.setVisible(true);
 		canvas.setIgnoreRepaint(true);
 		// *** => This is what causes two difference color windows i think (canvas)
