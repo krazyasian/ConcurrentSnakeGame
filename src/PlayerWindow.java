@@ -64,9 +64,13 @@ public class PlayerWindow extends State implements KeyListener, WindowListener {
 						gridCase = grid.get(key).getType();
 						switch (gridCase) {
 						case SNAKE:
+							int x = i * gridUnit;
+							int y = j * gridUnit;
+							
 							graph.setColor(Color.yellow);
-							graph.fillOval(i * gridUnit, j * gridUnit,
+							graph.fillOval(x, y,
 									gridUnit, gridUnit);
+
 							break;
 						case FOOD_BONUS:
 							graph.setColor(Color.green);
@@ -85,6 +89,10 @@ public class PlayerWindow extends State implements KeyListener, WindowListener {
 				}
 				graph.setColor(Color.WHITE);
 				graph.drawString("SCORE = " + _player.length, 10, 20);
+				
+				graph.setColor(Color.yellow);
+				graph.drawString(_player.getPlayerName(), _player.getLocation(0).getx()*gridUnit, 
+						_player.getLocation(0).gety()*gridUnit);
 				
 				graph.dispose();
 			} while (strategy.contentsRestored());
