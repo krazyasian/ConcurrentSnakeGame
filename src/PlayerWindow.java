@@ -29,14 +29,10 @@ public class PlayerWindow extends State implements KeyListener, WindowListener {
 	}
 	
 	private void init() {
-//		canvas = _state.canvas;
-//		frame = _state.frame;
-//		graph = _state.graph;
-//		strategy = _state.strategy;
 		grid = _state.grid;
 		canvas.addKeyListener(this);
 		populate(_player);
-		graph.drawString("SCORE = " + _player.getLength(), 10, 20);
+		
 		render();
 		
 	}

@@ -108,7 +108,6 @@ public class Server {
 			
 			UpdateSnake update = new UpdateSnake(currentPlayer, playerMove, getGameState());
 			executorService.execute(update);
-	
 	}
 	
 	protected void updateLoop() {
