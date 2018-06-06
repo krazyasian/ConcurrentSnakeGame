@@ -116,8 +116,6 @@ public class State {
 						}
 					}
 				}
-				graph.setColor(Color.WHITE);
-				graph.drawString("SCORE = ", 10, 20);
 				
 				graph.dispose();
 			} while (strategy.contentsRestored());
