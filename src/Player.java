@@ -122,7 +122,7 @@ public class Player implements Runnable, KeyListener {
 		    public void run(){
 		    	while(myServer.isRunning()) {
 					try {
-						Thread.sleep(500);
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -134,15 +134,6 @@ public class Player implements Runnable, KeyListener {
 		  };
 		
 		thread.start();	
-	}
-	
-	protected void updateLoop() {
-		int delay = 1000 / 25;
-		new Timer(delay, new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				sendToBuffer();
-			}
-		}).start();
 	}
 
 	@Override
