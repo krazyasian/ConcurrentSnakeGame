@@ -19,7 +19,7 @@ public class State {
 	public int gameHeight = 800;
 	//Width of the grid to be set by the server
 	public int gameWidth = 800;
-	private int gameSize = 100;
+	protected int gameSize = 100;
 	private long speed = 200;
 	protected JFrame frame = null;
 	protected Canvas canvas = null;
@@ -116,6 +116,8 @@ public class State {
 						}
 					}
 				}
+				graph.setColor(Color.WHITE);
+				graph.drawString("SCORE = ", 10, 20);
 				
 				graph.dispose();
 			} while (strategy.contentsRestored());

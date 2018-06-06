@@ -33,10 +33,63 @@ public class PlayerWindow extends State implements KeyListener, WindowListener {
 		canvas.addKeyListener(this);
 		populate(_player);
 		
-		render();
+		renderLoop();
 		
 	}
 	
+	public void render()
+	{
+		int gridUnit = gameHeight / gameSize;
+		canvas.paint(graph);
+		do {
+			do {
+				graph = strategy.getDrawGraphics();
+
+				
+				graph.setColor(new Color(230, 230, 255));
+
+				// Draw Background
+				graph.setColor(new Color(0, 0, 102));
+
+				graph.fillRect(0, 0, gameWidth, gameHeight);
+				
+				int gridCase = EMPTY;
+				for (int i = 0; i < gameSize; i++) {
+
+					for (int j = 0; j < gameSize; j++) {
+						String key = i + "-" + j;
+						gridCase = grid.get(key).getType();
+						switch (gridCase) {
+						case SNAKE:
+							graph.setColor(Color.yellow);
+							graph.fillOval(i * gridUnit, j * gridUnit,
+									gridUnit, gridUnit);
+							break;
+						case FOOD_BONUS:
+							graph.setColor(Color.green);
+							graph.fillOval(i*gridUnit, j* gridUnit,
+									(gridUnit/2)+3, (gridUnit/2)+3);
+							break;
+						case FOOD_NEGATIVE:
+							graph.setColor(Color.red);
+							graph.fillOval(i*gridUnit, j* gridUnit,
+									(gridUnit/2)+3, (gridUnit/2+3));
+							break;
+						default:
+							break;
+						}
+					}
+				}
+				graph.setColor(Color.WHITE);
+				graph.drawString("SCORE = " + _player.length, 10, 20);
+				
+				graph.dispose();
+			} while (strategy.contentsRestored());
+			
+			strategy.show();
+			Toolkit.getDefaultToolkit().sync();
+		} while (strategy.contentsLost());
+	}
 	
 	
 	/**
