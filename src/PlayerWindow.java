@@ -66,8 +66,14 @@ public class PlayerWindow extends State implements KeyListener, WindowListener {
 						case SNAKE:
 							int x = i * gridUnit;
 							int y = j * gridUnit;
+							int headx = _player.locations.get(0).getx()*gridUnit;
+							int heady = _player.locations.get(0).gety()*gridUnit;
+							if(x == headx && y == heady) {
+								graph.setColor(Color.MAGENTA);
+							}else {
+								graph.setColor(Color.yellow);
+							}
 							
-							graph.setColor(Color.yellow);
 							graph.fillOval(x, y,
 									gridUnit, gridUnit);
 
