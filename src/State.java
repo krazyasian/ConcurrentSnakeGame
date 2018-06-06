@@ -13,9 +13,9 @@ import javax.swing.JFrame;
 public class State{
 	
 	//Height of the grid to be set by the server
-	public int gameHeight = 1000;
+	public int gameHeight = 600;
 	//Width of the grid to be set by the server
-	public int gameWidth = 1000;
+	public int gameWidth = 800;
 	private int gameSize = 90;
 	private long speed = 70;
 	private JFrame frame = null;
@@ -119,6 +119,63 @@ public class State{
 			strategy.show();
 			Toolkit.getDefaultToolkit().sync();
 		} while (strategy.contentsLost());
+	}
+	
+	public Player populate(Player currentPlayer)
+	{
+
+		int x = (int) Math.floor(Math.random()*gameSize)+3;
+		int y = (int) Math.floor(Math.random()*gameSize);
+		
+		Location headLocation = new Location(x, y, 1);
+		Location secondLocation = new Location(x-1, y, 1);
+		Location thirdLocation = new Location(x-2, y, 1);
+		Location fourthLocation = new Location(x-3, y, 1);
+		
+		grid.replace(headLocation.getKey(), headLocation);
+		grid.replace(secondLocation.getKey(), secondLocation);
+		grid.replace(thirdLocation.getKey(), thirdLocation);
+		grid.replace(fourthLocation.getKey(), fourthLocation);
+		
+		currentPlayer.addLocation(headLocation);
+		currentPlayer.addLocation(secondLocation);
+		currentPlayer.addLocation(thirdLocation);
+		currentPlayer.addLocation(fourthLocation);
+
+		
+		for(int i=0; i<30; i++)
+		{
+			int x1 = (int) Math.floor(Math.random()*gameSize)+1;
+			int y1 = (int) Math.floor(Math.random()*gameSize)+1;
+			String key = x1 + "-" + y1;
+			if (grid.get(key).getType() == 1)
+			{
+				x1 = (int) Math.floor(Math.random()*gameSize)+1;
+				y1 = (int) Math.floor(Math.random()*gameSize)+1;
+			}
+			else
+			{
+				grid.replace(key, new Location(x1,y1,2));
+			}
+		}
+		
+		for(int i=0; i<15; i++)
+		{
+			int x2 = (int) Math.floor(Math.random()*gameSize)+1;
+			int y2 = (int) Math.floor(Math.random()*gameSize)+1;
+			String key = x2 + "-" + y2;
+			if (grid.get(key).getType() == 1)
+			{
+				x2 = (int) Math.floor(Math.random()*gameSize)+1;
+				y2 = (int) Math.floor(Math.random()*gameSize)+1;
+			}
+			else
+			{
+				grid.replace(key, new Location(x2,y2,3));
+			}
+		}
+		
+		return currentPlayer;
 	}
 	
 	public HashMap<Integer, Player> populate(HashMap<Integer, Player> players, int numPlayers)

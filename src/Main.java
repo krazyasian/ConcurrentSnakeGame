@@ -9,13 +9,14 @@ public class Main {
 
 		Server gameServer = new Server();
 		loginData(gameServer);
-		int players = 100;
+		int players = 4;
 		
 		for(int i=0; i<players ; i++) {
 			Player p1=new Player("Player" + i, i);
 			if(gameServer.login(p1, i))
 			{
 				System.out.println("Login was correct");
+				gameServer.getGameState().populate(p1);
 			}
 			else {
 				System.out.println("Login wasn't correct");
@@ -24,8 +25,8 @@ public class Main {
 
 		HashMap<Integer, Player> playerList = gameServer.hmap;
 
-		gameServer.getGameState().populate(playerList, playerList.size());
-//		gameState.render();
+//		gameServer.getGameState().populate(playerList, playerList.size());
+//		gameServer.getGameState().render();
 
 		while(gameServer.isRunning())
 		{
@@ -33,15 +34,17 @@ public class Main {
 			for (int j=0; j<playerList.size();j++)
 			{
 				final int a = j;
-				 
-				Thread thread = new Thread(){
-				    public void run(){
-				    	gameServer.getBuffer().append(a, (int) Math.floor(Math.random()*4)+1);
-						gameServer.updateGameInterface();
-				    }
-				  };
 				
-				thread.start();
+				if(playerList.get(a).getAlive()) {
+					Thread thread = new Thread(){
+					    public void run(){
+					    	gameServer.getBuffer().append(a, (int) Math.floor(Math.random()*4)+1);
+							gameServer.updateGameInterface();
+					    }
+					  };
+					
+					thread.start();
+				}	
 				
 //				playerList.replace(j, gameServer.getGameState().move(playerList.get(j), (int) Math.floor(Math.random()*4)+1));
 			}
@@ -58,7 +61,7 @@ public class Main {
 	//Create 100 players and their 100 passwords and puts them in database(mapDB) **=>
 	public synchronized static void loginData(Server server)
 	{
-		for(int i=0;i<100;i++)
+		for(int i=0;i<4;i++)
 		{
 			server.getPlayers().put(i,"Player"+i);
 			server.getPasswords().put("Player"+i,i);

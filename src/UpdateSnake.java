@@ -3,6 +3,7 @@ public class UpdateSnake implements Runnable {
 	private Player _player;
 	private int _move;
 	private State _state;
+	static int count = 0;
 	
 
 	public UpdateSnake(Player currentPlayer, int playerMove, State gameState) {
@@ -15,8 +16,14 @@ public class UpdateSnake implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		
 		_state.move(_player, _move);
-//		_state.render();
+		count++;
+		
+//		if(count > 1000) {
+//			_state.render();
+//		}
+	
 	}
 
 }
