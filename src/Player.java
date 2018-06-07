@@ -33,15 +33,13 @@ public class Player implements Runnable, KeyListener {
 		this.playerID = PlayerID;
 		this.myBuffer = buffer;
 		this.myServer = server;
-
-		resetLastKeyPressed();
-		sendToBuffer();
 	}
 
 
 	public void run()
 	{
-		System.out.println("new player created");
+		resetLastKeyPressed();
+		sendToBuffer();
 	}
 
 	public void addLocation(Location location)

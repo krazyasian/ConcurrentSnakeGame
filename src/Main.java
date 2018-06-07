@@ -9,7 +9,7 @@ public class Main {
 
 		Server gameServer = new Server();
 		int numbers = 5;
-		int players = 1;
+		int players = 2;
 		
 		//Creating login data for quantity players
 		loginData(gameServer,numbers);
@@ -18,11 +18,12 @@ public class Main {
 			
 			Thread thread = new Thread(){
 			    public void run(){
-			    	Player p1=new Player("Player" + a, a, gameServer.getBuffer(), gameServer);
-					if(gameServer.login(p1, a))
+			    	Player p=new Player("Player" + a, a, gameServer.getBuffer(), gameServer);
+					if(gameServer.login(p, a))
 					{
 						System.out.println("Login was correct");
-						PlayerWindow  playerWindow= new PlayerWindow(p1, gameServer.getGameState());
+						PlayerWindow  playerWindow= new PlayerWindow(p, gameServer.getGameState());
+						p.run();
 					}
 					else {
 						System.out.println("Login wasn't correct");

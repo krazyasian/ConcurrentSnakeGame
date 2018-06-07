@@ -5,6 +5,7 @@ public class PlayerAI extends Player {
 		this.alive = true;
 	}
 	
+	@Override
 	public void run() {
 		myServer.getGameState().populate(this);
 		resetLastKeyPressed();
@@ -13,25 +14,32 @@ public class PlayerAI extends Player {
 	}
 	
 	private void randomMove() {
-		while(myServer.isRunning()) {
-			waitTime();
-			double rand = Math.random()*100;
-			if (rand > 0 && rand < 25) {
-				setLastKeyPressed(Move.UP);
-				move = 3;
-			} else if (rand >= 25 && rand < 50) {
-				setLastKeyPressed(Move.DOWN);
-				move = 2;
-			} else if (rand >= 50 && rand < 75) {
-				setLastKeyPressed(Move.LEFT);
-				move = 4;
-			} else if (rand >= 75 && rand < 100) {
-				setLastKeyPressed(Move.RIGHT);
-				move = 1;
-			} else {
-				setLastKeyPressed(Move.NONE);
-			}
-		}	
+		Thread thread = new Thread(){
+		    public void run(){
+		    	while(myServer.isRunning()) {
+					waitTime();
+					double rand = Math.random()*100;
+					if (rand > 0 && rand < 25) {
+						setLastKeyPressed(Move.UP);
+						move = 3;
+					} else if (rand >= 25 && rand < 50) {
+						setLastKeyPressed(Move.DOWN);
+						move = 2;
+					} else if (rand >= 50 && rand < 75) {
+						setLastKeyPressed(Move.LEFT);
+						move = 4;
+					} else if (rand >= 75 && rand < 100) {
+						setLastKeyPressed(Move.RIGHT);
+						move = 1;
+					} else {
+						setLastKeyPressed(Move.NONE);
+					}
+				}
+		    }
+		};
+		
+		thread.start();
+			
 	}
 	
 	@Override
