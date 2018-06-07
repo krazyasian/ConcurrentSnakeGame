@@ -71,7 +71,6 @@ public class State {
 		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
 		renderLoop();
-
 	}
 
 	public void render()
@@ -81,7 +80,6 @@ public class State {
 		do {
 			do {
 				graph = strategy.getDrawGraphics();
-
 
 				graph.setColor(new Color(230, 230, 255));
 
@@ -191,7 +189,6 @@ public class State {
 				grid.replace(key, new Location(x2,y2,3));
 			}
 		}
-
 		return currentPlayer;
 	}
 
@@ -220,9 +217,6 @@ public class State {
 			currentPlayer.addLocation(fourthLocation);
 
 			players.replace(i, currentPlayer);
-
-
-
 		}
 
 		for(int i=0; i<30; i++)
@@ -308,7 +302,6 @@ public class State {
 					next = new Location(newx, head.gety(), 1);
 					currentPlayer.setFacing(4);
 				}
-
 			}
 			//move down
 			else if (direction == 2)
@@ -341,7 +334,6 @@ public class State {
 					next = new Location(head.getx(), newy, 1);
 					currentPlayer.setFacing(3);
 				}
-
 			}
 			//move up
 			else if (direction == 3)
@@ -377,7 +369,6 @@ public class State {
 					currentPlayer.setFacing(2);
 
 				}
-
 			}
 			//move left
 			else if (direction == 4)
@@ -410,7 +401,6 @@ public class State {
 					next = new Location(newx, head.gety(), 1);
 					currentPlayer.setFacing(1);
 				}
-
 			}
 
 			if (checkCollision(next) == 1)
@@ -477,10 +467,7 @@ public class State {
 				currentPlayer.setLength(currentPlayer.getLength()+1);
 			}
 			currentPlayer.setLocation(newArray);
-
 		}
-
-
 		return currentPlayer;
 	}
 
