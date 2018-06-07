@@ -71,7 +71,7 @@ public class Server {
 	//Warning ! Don't do anything with this method
 	//checks if player exists in record and
 	//returns true if it does
-	public static boolean getPlayer(String name, int password)
+	private static boolean getPlayer(String name, int password)
 	{
 		if(players.get(password).equals(name) && passwords.get(name).equals(password)) {
 			return true;
@@ -82,7 +82,7 @@ public class Server {
 	
 	//Warning ! Don't do anything with this method
 	//puts player in hashmap 
-	public static void putPlayerInHashMap(int playerId,Player player)
+	private static void putPlayerInHashMap(int playerId,Player player)
 	{
 		hmap.put(playerId,player);
 	}
@@ -90,11 +90,6 @@ public class Server {
 	//pull moves from the buffer
 	public Buffer getBuffer () {
 		return buffer;
-	}
-
-	//notify the players to update their game state
-	private void notifyPlayers () {
-		
 	}
 
 	//updates the game interface with the new moves coming from the players
@@ -110,14 +105,6 @@ public class Server {
 			executorService.execute(update);
 	}
 	
-	protected void updateLoop() {
-		int delay = 1000 / 25;
-		new Timer(delay, new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				updateGameInterface();
-			}
-		}).start();
-	}
 	private synchronized void removePlayer (Player removePlayer) {
 		hmap.remove(removePlayer);
 	}

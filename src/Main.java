@@ -8,8 +8,8 @@ public class Main {
 				+ " the database :) + IF TRUE then Start State");
 
 		Server gameServer = new Server();
-		int numbers = 100;
-		int players = 0;
+		int numbers = 1;
+		int players = 1;
 		
 		//Creating login data for quantity players
 		loginData(gameServer,numbers);
