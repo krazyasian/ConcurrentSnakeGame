@@ -8,8 +8,8 @@ public class Main {
 				+ " the database :) + IF TRUE then Start State");
 
 		Server gameServer = new Server();
-		int numbers = 10;
-		int players = 2;
+		int numbers = 100;
+		int players = 0;
 		
 		//Creating login data for quantity players
 		loginData(gameServer,numbers);
@@ -27,7 +27,7 @@ public class Main {
 		
 		//login for AI players
 		for(int i=players; i<numbers ; i++) {
-			Player p1=new Player("Player" + i, i, gameServer.getBuffer(), gameServer);
+			Player p1=new PlayerAI("Player" + i, i, gameServer.getBuffer(), gameServer);
 			if(gameServer.login(p1, i))
 			{
 				System.out.println("Login was correct");

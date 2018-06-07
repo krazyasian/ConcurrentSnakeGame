@@ -8,8 +8,8 @@ import javax.swing.Timer;
 
 public class Player implements Runnable, KeyListener {
 
-	private static Buffer myBuffer;
-	private Server myServer;
+	protected static Buffer myBuffer;
+	protected static Server myServer;
 	
 	public String playerName = "PlayerName";
 	public boolean alive;
@@ -17,7 +17,7 @@ public class Player implements Runnable, KeyListener {
 	public int facing = 1;
 	//Array list containing Location objects which show what squares in the grid this player occupies
 	public int length = 4;
-	private int move = 1;
+	protected int move = 1;
 	public ArrayList<Location> locations = new ArrayList<Location>(); 
 
 	public static enum Move {
@@ -34,8 +34,6 @@ public class Player implements Runnable, KeyListener {
 		this.myBuffer = buffer;
 		this.myServer = server;
 
-		int LocX;
-		int LocY;
 		resetLastKeyPressed();
 		sendToBuffer();
 	}

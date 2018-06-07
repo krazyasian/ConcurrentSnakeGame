@@ -2,25 +2,52 @@ public class PlayerAI extends Player {
 
 	public PlayerAI(String PlayerName, int PlayerID, Buffer buffer, Server server) {
 		super(PlayerName, PlayerID, buffer, server);
+		this.alive = true;
 		resetLastKeyPressed();
+		randomMove();
+		sendToBuffer();
 		}
 	
 	private void randomMove() {
-		double rand = Math.random()*200;
-		if (rand >= 25 && rand < 50) {
+		double rand = Math.random()*100;
+		if (rand > 0 && rand < 25) {
 			setLastKeyPressed(Move.UP);
-		} else if (rand >= 75 && rand < 100) {
-			setLastKeyPressed(Move.LEFT);
-		} else if (rand >= 125 && rand < 150) {
+			move = 3;
+		} else if (rand >= 25 && rand < 50) {
 			setLastKeyPressed(Move.DOWN);
-		} else if (rand >= 175 && rand < 200) {
+			move = 2;
+		} else if (rand >= 50 && rand < 75) {
+			setLastKeyPressed(Move.LEFT);
+			move = 4;
+		} else if (rand >= 75 && rand < 100) {
 			setLastKeyPressed(Move.RIGHT);
+			move = 1;
 		} else {
 			setLastKeyPressed(Move.NONE);
 		}
 	}
 	
-	private void waitTime() {
+	@Override
+	public void sendToBuffer() {
+		Thread thread = new Thread(){
+		    public void run(){
+		    	while(myServer.isRunning()) {
+					waitTime();
+					myBuffer.append(playerID, move);
+					myServer.updateGameInterface();
+				}
+		    }
+		  };
 		
+		thread.start();
+	}
+	
+	private void waitTime() {
+		try {
+			Thread.sleep((long) (Math.random()*1000));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

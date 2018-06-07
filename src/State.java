@@ -264,7 +264,7 @@ public class State {
 	{
 		boolean fed = false;
 		boolean poisoned = false;
-		if (currentPlayer.getLength() == 1)
+		if (currentPlayer.getLength() == 0)
 		{
 			currentPlayer.setAlive(false);
 		}
