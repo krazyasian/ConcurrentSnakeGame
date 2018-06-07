@@ -192,68 +192,6 @@ public class State {
 		return currentPlayer;
 	}
 
-	public HashMap<Integer, Player> populate(HashMap<Integer, Player> players, int numPlayers)
-	{
-		for (int i = 0; i < numPlayers; i++)
-		{
-			//Player currentPlayer = players.get(j);
-			int x = (int) Math.floor(Math.random()*gameSize)+3;
-			int y = (int) Math.floor(Math.random()*gameSize);
-			Player currentPlayer = players.get(i);
-
-			Location headLocation = new Location(x, y, 1);
-			Location secondLocation = new Location(x-1, y, 1);
-			Location thirdLocation = new Location(x-2, y, 1);
-			Location fourthLocation = new Location(x-3, y, 1);
-
-			grid.replace(headLocation.getKey(), headLocation);
-			grid.replace(secondLocation.getKey(), secondLocation);
-			grid.replace(thirdLocation.getKey(), thirdLocation);
-			grid.replace(fourthLocation.getKey(), fourthLocation);
-
-			currentPlayer.addLocation(headLocation);
-			currentPlayer.addLocation(secondLocation);
-			currentPlayer.addLocation(thirdLocation);
-			currentPlayer.addLocation(fourthLocation);
-
-			players.replace(i, currentPlayer);
-		}
-
-		for(int i=0; i<30; i++)
-		{
-			int x = (int) Math.floor(Math.random()*gameSize)+1;
-			int y = (int) Math.floor(Math.random()*gameSize)+1;
-			String key = x + "-" + y;
-			if (grid.get(key).getType() == 1)
-			{
-				x = (int) Math.floor(Math.random()*gameSize)+1;
-				y = (int) Math.floor(Math.random()*gameSize)+1;
-			}
-			else
-			{
-				grid.replace(key, new Location(x,y,2));
-			}
-		}
-
-		for(int i=0; i<15; i++)
-		{
-			int x = (int) Math.floor(Math.random()*gameSize)+1;
-			int y = (int) Math.floor(Math.random()*gameSize)+1;
-			String key = x + "-" + y;
-			if (grid.get(key).getType() == 1)
-			{
-				x = (int) Math.floor(Math.random()*gameSize)+1;
-				y = (int) Math.floor(Math.random()*gameSize)+1;
-			}
-			else
-			{
-				grid.replace(key, new Location(x,y,3));
-			}
-		}
-
-		return players;
-	}
-
 	public Player move(Player currentPlayer, int direction)
 	{
 		boolean fed = false;
